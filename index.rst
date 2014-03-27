@@ -8,4 +8,9 @@ Welcome to ZeroVM's documentation!
 
 The documentation for ZeroVM is split into separate subprojects:
 
+.. toctree::
+   :maxdepth: 2
+
+   zebra
+
 * `ZeroVM Package Manager </projects/zerovm-zpm/>`_
