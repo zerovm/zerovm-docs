@@ -23,7 +23,7 @@ Examples of single applications would be as follows:
 #. watermark a digital photograph
 #. scale photographs or other artefacts for various display form factors
 #. grep log files
-#. calculate hash sums for storage objects
+#. calculate hash sums of storage objects
 
 These examples above are all single stage applications i.e. they operate on storage objects and may either result in new objects (examples 1, 2 and 4) or output that is sent back to the client (example 3).
 
