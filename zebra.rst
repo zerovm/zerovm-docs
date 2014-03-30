@@ -23,7 +23,7 @@ Examples of single applications would be as follows:
 #. watermark a digital photograph
 #. scale photographs or other artefacts for various display form factors
 #. grep log files
-#. calculate hash sums for storage objects
+#. calculate hash sums of storage objects
 
 These examples above are all single stage applications i.e. they operate on storage objects and may either result in new objects (examples 1, 2 and 4) or output that is sent back to the client (example 3).
 
@@ -42,16 +42,14 @@ Examples of this application style would be:
 
 Please note also that the ZeroVM team maintains a `map/reduce library <https://github.com/zerovm/zrt/tree/master/lib/mapreduce/doc>`_ to facilitate the construction of such applications.
 
-Tutorial
-==================================================
-
-
 
 How do I gain access to Zebra?
---------------------------------------------------
+==================================================
 
 Please see :ref:`zebra_auth_docs` for more information.
 
 
 How do I prepare and deploy ZeroVM application?
---------------------------------------------------
+==================================================
+
+ZeroVM applications are best prepared and deployed using the `ZeroVM Package Manager </projects/zerovm-zpm/>`_. See `this section </projects/zerovm-zpm/en/latest/intro.html#creating-a-zerovm-application>`_ for a simple example.
