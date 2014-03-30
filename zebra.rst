@@ -40,7 +40,7 @@ Examples of this application style would be:
 #. distributed pattern-based searching
 #. distributed sorting
 
-
+Please note also that the ZeroVM team maintains a `map/reduce library <https://github.com/zerovm/zrt/tree/master/lib/mapreduce/doc>`_ to facilitate the construction of such applications.
 
 Tutorial
 ==================================================
