@@ -50,6 +50,7 @@ Tutorial
 How do I gain access to Zebra?
 --------------------------------------------------
 
+Please see :ref:`zebra_auth_docs` for more information.
 
 
 How do I prepare and deploy ZeroVM application?
