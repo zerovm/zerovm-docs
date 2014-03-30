@@ -9,7 +9,7 @@ Welcome to ZeroVM's documentation!
 The documentation for ZeroVM is split into separate subprojects:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    zebra
 
