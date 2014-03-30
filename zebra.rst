@@ -1,4 +1,4 @@
-.. _zebra-docs:
+.. _zebra_docs:
 
 **************************************************
 Zebra
@@ -25,8 +25,7 @@ Examples of single applications would be as follows:
 #. grep log files
 #. calculate hash sums of storage objects
 
-These examples above are all single stage applications i.e. they operate on storage objects and may either result in new objects (examples 1, 2 and 4) or output that is sent back to the client (example 3).
-
+The examples above are all single stage applications i.e. they operate on storage objects and may either result in new objects (examples 1, 2 and 4) or output that is sent back to the client (example 3).
 
 
 Multi-stage applications
