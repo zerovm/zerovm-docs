@@ -9,6 +9,16 @@ Welcome to ZeroVM
 ZeroVM is a light-weight virtualization platform. It allows you to run
 untrusted code with a minimum of overhead.
 
+Getting Involved
+----------------
+
+Please see our developer information:
+
+.. toctree::
+   :maxdepth: 2
+
+   contributing
+
 The Zebra Playground Environment
 --------------------------------
 
