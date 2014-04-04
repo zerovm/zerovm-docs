@@ -18,6 +18,7 @@ Please see our developer information:
    :maxdepth: 2
 
    contributing
+   release-schedule
 
 The Zebra Playground Environment
 --------------------------------
