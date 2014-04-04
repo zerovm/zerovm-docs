@@ -19,6 +19,7 @@ Please see our developer information:
 
    contributing
    release-schedule
+   contact
 
 The Zebra Playground Environment
 --------------------------------
