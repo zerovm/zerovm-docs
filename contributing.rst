@@ -19,9 +19,8 @@ We follow the C4_ contribution guidelines.
 Coding Style
 """"""""""""
 
-For Python-based projects, we follow flake8_ on the source. This means
-that you should follow the style guides in PEP8_ closely. Jenkins will
-inform you if there is a problem with your pull request.
+For Python-based projects, we enforce PEP8_ and Pyflakes_ standards. Checks are
+run automatically on each pull request to signal if there is a style violation.
 
 
 Branches
@@ -55,4 +54,5 @@ release onto the ``stable`` branch.
 .. _c4: https://github.com/zerovm/zvm-community/blob/master/process/c4_1.md
 .. _flake8: http://flake8.readthedocs.org/
 .. _pep8: http://legacy.python.org/dev/peps/pep-0008/
+.. _pyflakes: https://launchpad.net/pyflakes
 .. _git: https://www.kernel.org/pub/software/scm/git/docs/gitworkflows.html
