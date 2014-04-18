@@ -21,18 +21,23 @@ Please see our developer information:
    release-schedule
    contact
 
-The Zebra Playground Environment
---------------------------------
+The Zebra Playground
+--------------------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   zebra
+   zebra/zebra
+   zebra/*
 
-Subprojects
------------
 
-ZeroVM consist of a number of subprojects. They have separate
-documentation:g
+ZeroVM CLI Tools
+----------------
 
-* `ZeroVM Package Manager </projects/zerovm-zpm/>`_
+ZeroVM includes a number of command line tools to make it easier to interact with ZeroVM.
+
+.. toctree::
+   :maxdepth: 2
+
+   clitools
+

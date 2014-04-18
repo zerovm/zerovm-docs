@@ -1,12 +1,9 @@
-.. _zebra_docs:
-
-**************************************************
 Zebra
-**************************************************
+=====
 
 
 Introduction
-==================================================
+------------
 
 Zebra is an `OpenStack Swift <https://wiki.openstack.org/wiki/Swift>`_ cloud storage container that is `ZeroVM <http://zerovm.org/>`_-enabled i.e. it is capable of running ZeroVM applications in addition to performing static storage operations.
 
@@ -16,7 +13,7 @@ ZeroVM applications are usually written in `Python <https://www.python.org/>`_. 
 
 
 Simple applications
-==================================================
+-------------------
 
 Examples of single applications would be as follows:
 

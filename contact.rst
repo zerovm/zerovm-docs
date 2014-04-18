@@ -1,6 +1,6 @@
 
-How to Contact Us
-=================
+Contact Us
+==========
 
 There are several way to get support for ZeroVM and to talk to the
 developers.
