@@ -1,6 +1,17 @@
+.. _zebra:
+
 Zebra
 =====
 
+TODO: Short description of Zebra
+
+.. toctree::
+   :maxdepth: 2
+
+   overview
+   access
+   components
+   applications
 
 Introduction
 ------------
@@ -26,7 +37,7 @@ The examples above are all single stage applications i.e. they operate on storag
 
 
 Multi-stage applications
-==================================================
+------------------------
 
 ZeroVM instances may also be wired up so that the respective applications operate in `map/reduce style <https://en.wikipedia.org/wiki/Mapreduce>`_.
 
@@ -39,13 +50,34 @@ Examples of this application style would be:
 Please note also that the ZeroVM team maintains a `map/reduce library <https://github.com/zerovm/zrt/tree/master/lib/mapreduce/doc>`_ to facilitate the construction of such applications.
 
 
-How do I gain access to Zebra?
-==================================================
+Accessing Zebra
+---------------
 
-Please see :ref:`zebra_auth_docs` for more information.
+Requesting an Invitation Code
++++++++++++++++++++++++++++++
+
+Developers interested in getting access to the Zebra environment must first request an invitation code.
+
+Inviation codes can be requested here: <link_tbd>
+
+Registering an Account on Zebra
++++++++++++++++++++++++++++++++
+
+Details tbd...
+
+Authenticating on Zebra
++++++++++++++++++++++++
+
+Details tbd...
+
+Using the ZeroVM File Manager
++++++++++++++++++++++++++++++
+
+Details tbd...
 
 
-How do I prepare and deploy ZeroVM application?
-==================================================
+Deploying Applications on Zebra
+-------------------------------
 
 ZeroVM applications are best prepared and deployed using the `ZeroVM Package Manager </projects/zerovm-zpm/>`_. See `this section </projects/zerovm-zpm/en/latest/intro.html#creating-a-zerovm-application>`_ for a simple example.
+

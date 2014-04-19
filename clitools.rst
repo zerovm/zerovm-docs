@@ -1,3 +1,5 @@
+.. _clitools:
+
 
 ZeroVM CLI Tools
 ================
@@ -12,9 +14,10 @@ TODO: Description of zvsh and a link to the documentation
 zpm
 ---
 
-The ZeroVM Packaage, ZPM, is the tool that you use to create and deploy ZeroVM applications
+The ZeroVM Package Manager, ZPM, is the tool that you use to create and deploy ZeroVM applications.
 
-* 'ZeroVM Package Manager </projects/zerovm-zpm/>'_
+
+* `ZeroVM Package Manager </projects/zerovm-zpm/>`_
 
 zwift-cli
 ---------
