@@ -26,7 +26,7 @@ The Zebra Playground
 .. toctree::
    :maxdepth: 2
 
-   zebra
+   zebra/zebra
 
 
 ZeroVM CLI Tools

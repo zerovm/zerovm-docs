@@ -14,7 +14,7 @@ TODO: Description of zvsh and a link to the documentation
 zpm
 ---
 
-The ZeroVM Package Manager, ZPM, is the tool that you use to create and deploy ZeroVM applications.
+The ZeroVM Package Manager (ZPM) is the tool that you use to create and deploy ZeroVM applications.
 
 
 * `ZeroVM Package Manager </projects/zerovm-zpm/>`_
