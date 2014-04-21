@@ -6,10 +6,12 @@ ZeroVM CLI Tools
 
 The ZeroVM project includes a number of command line tools that make it easier to interact with ZeroVM and Zwift deployments.
 
-zvsh
-----
+zvsh and zvapp
+--------------
 
-TODO: Description of zvsh and a link to the documentation
+zvsh is a simple shell program that makes it easy to run a single zerovm instance on a local machine.  zvapp is a tool to run a cluser of zerovm instances on a single machine.
+
+* `zvsh and zvapp repository <https://github.com/zerovm/zerovm-cli/>`_
 
 zpm
 ---
@@ -19,8 +21,10 @@ The ZeroVM Package Manager (ZPM) is the tool that you use to create and deploy Z
 
 * `ZeroVM Package Manager </projects/zerovm-zpm/>`_
 
-zwift-cli
----------
+zwiftclient
+-----------
 
-TODO: Description of zwift-cli and a link to the documentation
+zwiftclient is a set of python bindings which allow you to interact with a zwift cluster.  It is orignally based on the swiftclient module with support for additional functionality enabled by zerovm.
+
+* `zwiftclient repository <https://github.com/zerovm/python-zwiftclient/>`_
 
