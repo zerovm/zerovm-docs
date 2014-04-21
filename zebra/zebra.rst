@@ -3,8 +3,6 @@
 Zebra
 =====
 
-TODO: Short description of Zebra
-
 .. toctree::
    :maxdepth: 2
 
