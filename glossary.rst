@@ -14,7 +14,7 @@ Glossary of Terms
      Channels are the only way for ZeroVM to communicate with the
      "outside world", i.e., the host file system, other ZeroVM nodes,
      etc. Before a ZeroVM instance starts, channels must be declared
-     in the :term:`Manifest`.
+     in the :term:`manifest`.
 
    Daemon mode
 
@@ -50,7 +50,7 @@ Glossary of Terms
      - ``Node``: Node ID number of a given ZeroVM instance in a
        cluster of VMs. Manditory if ``NameServer`` is specified.
      - ``Job``: Path to a Unix socket. Used for receiving
-       commands/manifests and to send reports in :term:`Daemon mode`.
+       commands/manifests and to send reports in :term:`daemon mode`.
 
    .. TODO(larsbutler): Add a more detailed `manifest` page and link
       it here. It would be nice to basically link to a detailed page
