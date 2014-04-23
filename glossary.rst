@@ -58,10 +58,10 @@ Glossary of Terms
       containing all of this:
       https://github.com/zerovm/zerovm/blob/master/doc/manifest.txt
 
+   Native Client
    NaCl
 
-     Native Client, see
-     http://en.wikipedia.org/wiki/Google_Native_Client.
+     See http://en.wikipedia.org/wiki/Google_Native_Client.
 
    NVRAM (configuration file)
 
@@ -98,11 +98,11 @@ Glossary of Terms
 
    .. TODO(larsbutler): This description needs expansion/improvement.
 
+   ZeroVM Application
    zapp
 
-     ZeroVM Application. An archive file (typically created by
-     :term:`zpm`) containing a ``zapp.yml`` configuration file and
-     user application code.
+     An archive file (typically created by :term:`zpm`) containing a
+     ``zapp.yml`` configuration file and user application code.
 
    ZeroCloud
 
@@ -120,11 +120,12 @@ Glossary of Terms
      `Rackspace <https://rackspace.com>`_. :term:`Zebra` is an
      alpha-testing service and playground for :term:`ZeroCloud`.
 
+   ZeroVM Package Manager
    zpm
 
-     ZeroVM Package Manager. Command-line utility which helps to
-     create, bundle, deploy (to :term:`ZeroCloud`), and execute (on
-     :term:`ZeroCloud`) ZeroVM user applications.
+     Command-line utility which helps to create, bundle, deploy (to
+     :term:`ZeroCloud`), and execute (on :term:`ZeroCloud`) ZeroVM
+     user applications.
 
      See https://github.com/zerovm/zpm.
 
@@ -135,10 +136,11 @@ Glossary of Terms
      and `Python 3.2.2 <https://github.com/zerovm/zpython>`_ to run
      inside ZeroVM.
 
+   ZeroVM Runtime
    ZRT
 
-     ZeroVM Runtime. Provides a POSIX-like environment and in-memory
-     file system for use by :term:`untrusted` user programs.
+     Provides a POSIX-like environment and in-memory file system for
+     use by :term:`untrusted` user programs.
 
    zvsh
 
