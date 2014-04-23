@@ -16,6 +16,7 @@ Getting Started with ZeroVM
    contributing
    release-schedule
    contact
+   glossary
 
 
 The Zebra Playground
