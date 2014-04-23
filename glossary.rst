@@ -54,9 +54,9 @@ Glossary of Terms
        commands/manifests and to send reports in :term:`daemon mode`.
 
    .. TODO(larsbutler): Add a more detailed `manifest` page and link
-      it here. It would be nice to basically link to a detailed page
-      containing all of this:
-      https://github.com/zerovm/zerovm/blob/master/doc/manifest.txt
+   .. it here. It would be nice to basically link to a detailed page
+   .. containing all of this:
+   .. https://github.com/zerovm/zerovm/blob/master/doc/manifest.txt
 
    Native Client
    NaCl
@@ -83,7 +83,7 @@ Glossary of Terms
        <http://en.wikipedia.org/wiki/Unix_time>`_.)
 
    .. TODO(larsbutler): Linked more detailed docs page here, with a
-      full description of the NVRAM file and all of its fields.
+   .. full description of the NVRAM file and all of its fields.
 
    Trusted
 
