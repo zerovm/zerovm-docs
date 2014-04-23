@@ -2,6 +2,7 @@ Glossary of Terms
 =================
 
 .. glossary::
+   :sorted:
 
    Channel
 
