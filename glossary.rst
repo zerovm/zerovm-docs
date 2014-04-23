@@ -142,6 +142,7 @@ Glossary of Terms
      Provides a POSIX-like environment and in-memory file system for
      use by :term:`untrusted` user programs.
 
+   ZeroVM Shell
    zvsh
 
      Utility program which makes ZeroVM easy to use by providing rich
