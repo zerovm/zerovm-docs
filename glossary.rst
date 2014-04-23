@@ -11,22 +11,22 @@ Glossary of Terms
 
      Channels are the only way for ZeroVM to communicate with the "outside
      world", i.e., the host file system, other ZeroVM nodes, etc. Before a
-     ZeroVM instance starts, channels must be declared in the **Manifest**.
+     ZeroVM instance starts, channels must be declared in the :term:`Manifest`.
 
    Daemon mode
      ZeroVM can be started in daemon mode to reduce startup of instances/nodes
      in a multi-node job. Although ZeroVM startup time is ~5ms, user programs,
-     for example, running on **zpython**, will incur an additional startup
+     for example, running on :term:`zpython`, will incur an additional startup
      penalty. Daemon mode allows a multi-node computation to "pre-warm" an
      instance and fork additional copies for each unit of computation, thereby
      paying the additional startup time penalty only once.
 
    Manifest
-     A text file which must be provided to ZeroVM in order to run a **NaCL**
+     A text file which must be provided to ZeroVM in order to run a :term:`NaCL`
      application. Manifest files must include the following *mandatory* fields:
 
      - ``Version``: Manifest format version.
-     - ``Program``: Full path to a **NaCL** application to be validated and run.
+     - ``Program``: Full path to a :term:`NaCL` application to be validated and run.
      - ``Timeout``: Timeout, in seconds. ZeroVM will stop the user program and
        exit after the specified time has elapsed. Valid values are
        1..2147483647.
@@ -41,19 +41,19 @@ Glossary of Terms
      - ``Node``: Node ID number of a given ZeroVM instance in a cluster of VMs.
        Manditory if ``NameServer`` is specified.
      - ``Job``: Path to a Unix socket. Used for receiving commands/manifests and
-       to send reports in **Daemon mode**.
+       to send reports in :term:`Daemon mode`.
 
    .. TODO(larsbutler): Add a more detailed `manifest` page and link it here.
       It would be nice to basically link to a detailed page containing all of
       this: https://github.com/zerovm/zerovm/blob/master/doc/manifest.txt
 
-
-   NaCl (Native Client)
-     See http://en.wikipedia.org/wiki/Google_Native_Client.
+   NaCl
+     Native Client, see
+     http://en.wikipedia.org/wiki/Google_Native_Client.
 
    NVRAM (configuration file)
      `INI-style <http://en.wikipedia.org/wiki/INI_file>`_ configuration file
-     used by ZeroVM and the **ZRT**. Includes the following:
+     used by ZeroVM and the :term:`ZRT`. Includes the following:
 
      - ``[fstab]`` section: Channel definitions for ``tar`` images to
        be mounted as directory/file hierarchies in the in-memory file system.
@@ -68,18 +68,18 @@ Glossary of Terms
    .. TODO(larsbutler): Linked more detailed docs page here, with a full
       description of the NVRAM file and all of its fields.
 
-   Trusted (code)
-     ZeroVM and the **ZRT**. Provides a secure sandbox for running **untrusted**
+   Trusted
+     ZeroVM and the :term:`ZRT`. Provides a secure sandbox for running :term:`untrusted`
      code.
 
-   Untrusted (code)
-     User code run inside the ZeroVM **NaCL**-based sandbox. Untrusted code is
+   Untrusted
+     User code run inside the ZeroVM :term:`NaCL`-based sandbox. Untrusted code is
      `validated <https://github.com/zerovm/validator>`_ before it is run.
 
    .. TODO(larsbutler): This description needs expansion/improvement.
 
    zapp
-     ZeroVM Application. An archive file (typically created by **zpm**)
+     ZeroVM Application. An archive file (typically created by :term:`zpm`)
      containing a ``zapp.yml`` configuration file and user application code.
 
    ZeroCloud
@@ -91,26 +91,26 @@ Glossary of Terms
      See https://github.com/zerovm/zerocloud.
 
    Zebra
-     Custom-configured deployment of **ZeroCloud**, hosted by `Rackspace
-     <https://rackspace.com>`_. **Zebra** is an alpha-testing service and
-     playground for **ZeroCloud**.
+     Custom-configured deployment of :term:`ZeroCloud`, hosted by `Rackspace
+     <https://rackspace.com>`_. :term:`Zebra` is an alpha-testing service and
+     playground for :term:`ZeroCloud`.
 
    zpm
      ZeroVM Package Manager. Command-line utility which helps to create, bundle,
-     deploy (to **ZeroCloud**), and execute (on **ZeroCloud**) ZeroVM user
+     deploy (to :term:`ZeroCloud`), and execute (on :term:`ZeroCloud`) ZeroVM user
      applications.
 
      See https://github.com/zerovm/zpm.
 
    zpython
-     **ZeroVM** ports of CPython interpreters. There are ongoing efforts to port
+     ZeroVM ports of CPython interpreters. There are ongoing efforts to port
      both `Python 2.7.3 <https://github.com/zerovm/zpython2>`_ and
      `Python 3.2.2 <https://github.com/zerovm/zpython>`_ to run inside
-     **ZeroVM**.
+     ZeroVM.
 
    ZRT
-     **ZeroVM** Runtime. Provides a POSIX-like environment and in-memory file
-     system for use by **untrusted** user programs.
+     ZeroVM Runtime. Provides a POSIX-like environment and in-memory file
+     system for use by :term:`untrusted` user programs.
 
    zvsh
      Utility program which makes ZeroVM easy to use by providing rich
@@ -121,4 +121,4 @@ Glossary of Terms
      See https://github.com/zerovm/zerovm-cli.
 
    Zwift
-     Deprecated synonym for **ZeroCloud**.
+     Deprecated synonym for :term:`ZeroCloud`.
