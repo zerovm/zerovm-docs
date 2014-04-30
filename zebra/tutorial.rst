@@ -258,23 +258,214 @@ do so, we need to pick an existing Swift container as our deployment target.
 System Info
 """""""""""
 
+This application is meant to display information about the ZeroVM execution
+environment. It is intended to show details like platform info, environment
+variables, and filesystem details.
+
 1. Create the project directory
 ...............................
+
+.. code-block:: bash
+
+    $ mkdir ~/zebra/sysinfo
+    $ cd ~/zebra/sysinfo
 
 2. Add code
 ...........
 
+Create a ``sysinfo.py`` file in the current directory, and add the following
+code:
+
+.. code-block:: python
+
+    import os
+    import pprint
+    import sys
+    import time
+
+    from datetime import datetime
+
+
+    def hr():
+        """
+        Print a basic horizontal rule.
+        """
+        print('-' * 32)
+
+
+    def platform():
+        hr()
+        print('sys.platform: %s' % sys.platform)
+        print('os.name: %s' % os.name)
+        print('os.uname(): %s' % str(os.uname()))
+
+
+    def env():
+        hr()
+        print('Environment variables:')
+        for k, v in os.environ.items():
+            print '%s=%s' % (k, v)
+
+
+    def numbers():
+        hr()
+        print('Numbers:')
+        print(sys.long_info)
+        print(sys.float_info)
+        print('sys.maxint: %s' % sys.maxint)
+        print('sys.maxsize: %s' % sys.maxsize)
+
+
+    def syspath():
+        hr()
+        print('sys.path (for Python):')
+        pprint.pprint(sys.path)
+
+
+    def systime():
+        hr()
+        print('Current time: %s' % datetime.utcnow())
+        try:
+            print('CPU time: %s' % time.clock())
+        except AttributeError:
+            print('CPU time: Not available')
+
+
+    def filesystem():
+        hr()
+        print('Contents of /:')
+        for f in os.listdir('/'):
+            print('/%s' % f)
+
+
+    if __name__ == "__main__":
+        platform()
+        env()
+        numbers()
+        syspath()
+        systime()
+        filesystem()
+
 3. Create a template zapp config file (``zapp.yaml``)
 .....................................................
+
+``zpm`` can create this file for you:
+
+.. code-block:: bash
+
+    $ zpm new
 
 4. Customize the zapp config file
 .................................
 
+As with the :ref:`zebra-hello-world-sample` example, we only need to edit the
+execution group name and the bundling list.
+
+Change
+
+.. code-block:: yaml
+
+    execution:
+      groups:
+        - name: ""
+
+to
+
+.. code-block:: yaml
+
+    execution:
+      groups:
+        - name: "sysinfo"
+
+Then change
+
+.. code-block:: yaml
+
+    bundling:
+        - ""
+
+to
+
+.. code-block:: yaml
+
+    bundling:
+        - "sysinfo.py"
+
+The final result should look something like this:
+
+.. code-block:: yaml
+
+    # This section describes the runtime behavior of your zapp: which
+    # groups of nodes to create and which nexe to invoke for each.
+    execution:
+
+      # Your application can consist of multiple groups. This is typically
+      # used for map-reduce style jobs. This is a list of groups, so
+      # remember to add "-" infront of each group name.
+      groups:
+
+          # Name of this group. This is used if you need to connect groups
+          # with each other.
+        - name: "sysinfo"
+
+          # The NaCl executable (nexe) to run on the nodes in this group.
+          path: file://python2.7:python
+
+          # Command line arguments for the nexe.
+          args: ""
+
+          # Input and output devices for this group.
+          devices:
+          - name: python2.7
+          - name: stdout
+
+    # Meta-information about your zapp.
+    meta:
+      Version: ""
+      name: "hello"
+      Author-email: ""
+      Summary: ""
+
+    help:
+      # Short description of your zapp. This is used for auto-generated
+      # help.
+      description: ""
+
+      # Help for the command line arguments. Each entry is a two-tuple
+      # with an option name and an option help text.
+      args:
+      - ["", ""]
+
+    # Files to include in your zapp. Your can use glob patterns here, they
+    # will be resolved relative to the location of this file.
+    bundling:
+      - "sysinfo.py"
+
+
 5. Test the application locally using ``zvsh``
 ..............................................
 
+.. code-block:: bash
+
+    $ zvsh --zvm-image ~/python.tar python @sysinfo.py
+
+For contrast, try just running ``sysinfo.py`` on your host system and compare
+the outputs:
+
+.. code-block:: bash
+
+    $ python sysinfo.py
+
 6. Test the application on ZeroCloud/Zebra
 ..........................................
+
+We can deploy and test ``sysinfo`` in a similar manner to
+:ref:`zebra-hello-world-sample`.
+
+.. code-block:: bash
+
+    $ zpm bundle
+    $ zpm deploy sysinfo.zapp mycontainer --execute
 
 
 .. _zebra-wordcount-sample:
