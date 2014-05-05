@@ -42,7 +42,7 @@ bugfixes <bugfix-releases>` once per month by tagging and releasing
 whatever code we have in the ``stable`` branch. We make a
 :ref:`feature release <feature-releases>` every three months. These
 are also made from ``stable``, but the are preceded by a merge of
-``master`` into ``stable. It looks like this::
+``master`` into ``stable``. It looks like this::
 
    master: ----- o --- o --- o --- o
                 /           /       \
