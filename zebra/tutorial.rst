@@ -9,10 +9,10 @@ your `zapp <todo link>`_ development environment.
 There are also some sample applications writing guides to demonstrate how
 ZeroVM applications are structured and what they can do.
 
-#. :ref:`zebra-get-access`
-#. :ref:`zebra-install-cli-tools`
-#. :ref:`zebra-config-devenv`
-#. :ref:`zebra-sample-apps`
+.. contents::
+   :backlinks: none
+   :depth: 1
+   :local:
 
 .. _zebra-get-access:
 
@@ -79,10 +79,10 @@ Each sample application below includes complete source code. Each one is
 progressively more complex than the next. For best results, it is recommended
 to try them out in order.
 
-#. :ref:`zebra-hello-world-sample`
-#. :ref:`zebra-system-info-sample`
-#. :ref:`zebra-wordcount-sample`
-#. :ref:`zebra-mapreduce-wordcount-sample`
+.. contents::
+   :backlinks: none
+   :depth: 1
+   :local:
 
 .. _zebra-hello-world-sample:
 
