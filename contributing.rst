@@ -39,6 +39,44 @@ It will generally be appreciated if you keep your code up to date in
 this way -- even when there are no conflicts. Rebasing regularly
 simplifies the history.
 
+Ordering Commits
+""""""""""""""""
+
+Your commits should tell a story to the reviewer. You should therefore
+make sure to order them so they can be read like that. This means that
+you should:
+
+* Begin with the easy and non-controversial changes first. Consider
+  putting these changes into their own pull request so you can get
+  them out of the way.
+
+* Make sure each commit depends on the past only, not the future. It
+  is very confusing for a reviewer to read commit A if it calls a
+  function introduced later in commit B or C.
+
+* Pay attention to fixing bugs introduced in earlier commits. When a
+  reviewer sees a bug or some bad design in commit A, he will likely
+  stop and begin write a comment about it. If you then fix it in
+  commit B or C, it would be much more helpful if you had avoided
+  introducing it at all.
+
+Modern distributed version control systems like Git gives you the
+tools to fix these mistakes when they occur. Using the interactive
+mode of ``git rebase``, you can easily reorder commits. While having
+your feature branch checked out, you run::
+
+   $ git rebase -i master
+
+This will open your editor with a file that shown an "execution plan"
+for the interactive rebase. Each line represents a commit and by
+reordering the lines you instruct Git to reorder the corresponding
+commits.
+
+After you save the file and close the editor, Git will begin
+reordering commits. If conflicts occur, you should use ``git
+mergetool`` to solve them. This starts your three-way merge tool which
+should let you figure out how to best solve the conflicts.
+
 
 Contribution Guidelines
 -----------------------
