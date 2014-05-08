@@ -8,9 +8,28 @@ Pull Requests
 -------------
 
 Please use GitHub pull requests when contributing code. We will try to
-quickly review and merge your code. Feel free to remind us on IRC or
-the mailinglist if it takes more than a couple of days for us to
-respond to a pull request.
+quickly review and merge your code.
+
+When you submit a pull request, a review cycle is started. The typical
+process looks like this:
+
+* Jenkins makes a checkout of your branch and runs tests. This will
+  tell you if something simple broke (so you avoid breaking the
+  build).
+
+* Someone will take a look at the code and give you feedback. The
+  feedback can be about the code or the design.
+
+* Based on the feedback the pull request is either merged directly or
+  some changes may be needed.
+
+* If changes are needed, you should update the commits and push again.
+  You will need to use ``git push -f`` this time. The pull request
+  will automatically update and this starts a new review cycle.
+
+Feel free to remind us on IRC or the mailinglist if it takes more than
+a couple of days for us to respond to a pull request.
+
 
 Rebasing
 """"""""
