@@ -54,12 +54,6 @@ you should:
   is very confusing for a reviewer to read commit A if it calls a
   function introduced later in commit B or C.
 
-* Pay attention to fixing bugs introduced in earlier commits. When a
-  reviewer sees a bug or some bad design in commit A, he will likely
-  stop and begin write a comment about it. If you then fix it in
-  commit B or C, it would be much more helpful if you had avoided
-  introducing it at all.
-
 Modern distributed version control systems like Git gives you the
 tools to fix these mistakes when they occur. Using the interactive
 mode of ``git rebase``, you can easily reorder commits. While having
@@ -76,6 +70,35 @@ After you save the file and close the editor, Git will begin
 reordering commits. If conflicts occur, you should use ``git
 mergetool`` to solve them. This starts your three-way merge tool which
 should let you figure out how to best solve the conflicts.
+
+
+Fixing Your Own Mistakes
+""""""""""""""""""""""""
+
+Nobody writes perfect code in the first try, so it often happens that
+you discover a mistake in an earlier commit. Please pay attention to
+this situation. When a reviewer sees a bug or some bad design in
+commit A, he will likely stop and begin write a comment about it. Even
+if you fix the problem yourself in commit B or C, it would have been
+much more helpful if you had avoided introducing it at all.
+
+If the fix concerns the last commit you made, then simply use ``git
+commit --amend`` to redo the commit. You can use ``git commit
+--amend`` as many times you want to fine-tune a commit.
+
+If you want to fix something that committed further in the past, you
+should instead follow this procedure:
+
+1. Commit the fix by itself. Use ``git add -p`` to stage just the fix
+   by itself if there are other changes in the same file.
+
+2. Use ``git rebase -i`` to reorder the commits so that the bugfix is
+   right after the commit that introduced the bug. In addition to
+   reordering the commits, change the action from ``pick`` to
+   ``fixup``.
+
+This will do the same as if you had used ``git commit --amend`` to fix
+the bug. With these steps, you can easily fix past mistakes.
 
 
 Contribution Guidelines
