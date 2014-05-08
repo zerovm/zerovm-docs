@@ -4,11 +4,40 @@ Contributing to ZeroVM
 
 We love contributors!
 
+Pull Requests
+-------------
 
-Using GitHub Pull Requests
---------------------------
+Please use GitHub pull requests when contributing code. We will try to
+quickly review and merge your code. Feel free to remind us on IRC or
+the mailinglist if it takes more than a couple of days for us to
+respond to a pull request.
 
-Please use GitHub pull requests when contributing code.
+Rebasing
+""""""""
+
+You should make sure to rebase your code to the head of ``master``
+before submitting the pull request. That ensures that there will be no
+merge conflicts initially.
+
+If the pull request is not merged quickly, it can become outdated.
+This happens when other pull requests are merge in front of it and
+cause merge conflicts with the code you changed. You should then
+rebase the code again.
+
+You rebase your pull request with::
+
+   $ git checkout master
+   $ git pull upstream master
+   $ git rebase master your-branch
+
+This will first make sure that your ``master`` is up to date with
+regards to the upstream repository. The upstream should be the
+repository you forked on GitHub (the repository living under
+``github.com/zerovm/``).
+
+It will generally be appreciated if you keep your code up to date in
+this way -- even when there are no conflicts. Rebasing regularly
+simplifies the history.
 
 
 Contribution Guidelines
