@@ -175,6 +175,47 @@ should work with your reviewer. Try to follow his advice or explain to
 him why the changes really belong together.
 
 
+Commit Messages
+"""""""""""""""
+
+Writing good commit messages is an art. You want the message to be
+concise and to clearly explain the proposed change. Please follow this
+format::
+
+  topic: short summary line (less than 50 characters)
+
+  After a blank line, you can include a bigger description of the
+  changes. Wrap the text at about 72 characters -- this makes it
+  nicely centered when viewed in "git log".
+
+Include relevant keywords for the GitHub bug tracker. Adding "fixes
+#123" to the commit message will make GitHub close issue #123 when the
+commit is merged into the main repository.
+
+When explaining the change remember to focus on two things:
+
+* Explain *what* the change is. The diff technically shows this, so
+  you should describe the change at a more high level. An excellent
+  way to do this is to show the output before and after the change.
+  Reviewers often have limited context so this is very helpful.
+
+* Explain *why* you make the change. This is extremely important and
+  the part most often left out. The commit message is often all that
+  is left of the intent and reasoning behind a change when someone
+  looks at it again a year later because they found a bug that seems
+  to have been introduced by your change.
+
+  Knowing what you changed is good, but what is really helpful in that
+  situation is to know *why* you changed things the way you did. So
+  please explain why this solution is the good solution. Explain what
+  other solutions you investigated and why they won't work. Doing so
+  will save time for the poor programmer who is debugging your code in
+  the future.
+
+The second point is the more important point, so please try to put
+emphasis on that.
+
+
 Coding Style
 """"""""""""
 
