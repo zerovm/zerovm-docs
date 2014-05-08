@@ -125,6 +125,56 @@ Contribution Guidelines
 
 We follow the C4_ contribution guidelines.
 
+One Change Per Commit
+"""""""""""""""""""""
+
+Please take care to ensure that each commit only deals with one
+logical change. Make your commits small -- it is much easier to review
+five small commits than one massive commit. So try to err on the side
+of making too many commits.
+
+.. hint::
+
+   It is much easier to combine commits than to split them: use ``git
+   rebase -i`` and change ``pick`` into ``squash`` for the commits
+   that should be combined into one. Done!
+
+The question is then what one "logical change" is. Here you will have
+to use your best judgment. Some examples of what *not* to do:
+
+* Do not fix a bug *and* move a function to a more logical location.
+
+* Do not fix a bug *and* fix an unrelated typo.
+
+* Do not fix a bug *and* reformat the code for readability.
+
+While each change might be good, please use two commits in these
+cases. To put it in another way, different classes of changes should
+not be mixed in the same commit:
+
+* Bug fixes.
+
+* New features.
+
+* Moving code around (refactoring).
+
+* Whitespace and formatting changes.
+
+* Style changes.
+
+* Unrelated typo fixes.
+
+Your goal should always be to make sure that trivial commits stay
+trivial: a typo fix is trivial to review so you should make it trivial
+for the reviewer to accept the commit.
+
+In general, you should *stop* when you see yourself include the word
+"and" in a commit message. If you feel the need to make a bullet list,
+then you are likely including too much in the commit. In any case, you
+should work with your reviewer. Try to follow his advice or explain to
+him why the changes really belong together.
+
+
 Coding Style
 """"""""""""
 
