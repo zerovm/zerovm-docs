@@ -90,6 +90,10 @@ Writing Good Commits
 We have collected some guidelines on how to create good commits --
 commits that are easy to review and understand later.
 
+.. admonition:: Further reading
+
+   * `What's in a Good Commit?`_
+
 
 .. _one-change-per-commit:
 
@@ -357,3 +361,6 @@ is the previous commit or a commit further back in the history.
 .. _pep8: http://legacy.python.org/dev/peps/pep-0008/
 .. _pyflakes: https://launchpad.net/pyflakes
 .. _git: https://www.kernel.org/pub/software/scm/git/docs/gitworkflows.html
+
+.. _`what's in a good commit?`:
+   http://dev.solita.fi/2013/07/04/whats-in-a-good-commit.html
