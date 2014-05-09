@@ -2,7 +2,8 @@
 Contributing to ZeroVM
 ======================
 
-We love contributors!
+We love contributors! We follow the C4_ contribution guidelines.
+
 
 Pull Requests
 -------------
@@ -120,10 +121,12 @@ This will do the same as if you had used ``git commit --amend`` to fix
 the bug. With these steps, you can easily fix past mistakes.
 
 
-Contribution Guidelines
------------------------
+Writing Good Commits
+--------------------
 
-We follow the C4_ contribution guidelines.
+We have collected some guidelines on how to create good commits --
+commits that are easy to review and understand later.
+
 
 One Change Per Commit
 """""""""""""""""""""
