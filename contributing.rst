@@ -91,13 +91,16 @@ We have collected some guidelines on how to create good commits --
 commits that are easy to review and understand later.
 
 
+.. _one-change-per-commit:
+
 One Change Per Commit
 """""""""""""""""""""
 
 Please take care to ensure that each commit only deals with one
 logical change. Make your commits small -- it is much easier to review
 five small commits than one massive commit. So try to err on the side
-of making too many commits.
+of making too many commits. If you decide to split a commit, then see
+:ref:`git-split` for help.
 
 .. hint::
 
@@ -295,6 +298,59 @@ should instead follow this procedure:
 
 This will do the same as if you had used ``git commit --amend`` to fix
 the bug. With these steps, you can easily fix past mistakes.
+
+
+.. _git-split:
+
+Splitting Commits
+"""""""""""""""""
+
+The general advice is to make :ref:`small commits that do one thing
+<one-change-per-commit>`. Even when you try to make small commits at
+commit-time, you will inevitably end up with some commits that you
+later decide that you want to split.
+
+We will distinguish between two cases: if the commit you want to split
+is the previous commit or a commit further back in the history.
+
+* If you want to split the last commit, you run::
+
+     $ git reset HEAD^
+     $ git add foo.c
+     $ git commit -m 'foo: fixed #123'
+     $ git add bar.c
+     $ git commit -m 'bar: fixed typo'
+
+  The important command is ``git reset``, which will undo the commit.
+  The working tree is not touched (so your modifications are still
+  present), but the branch is rewinded and the index is reset. This
+  means that your modifications show up again in ``git diff``, for
+  example.
+
+  As shown, you can now commit the changes in as many commits as you
+  like. Use ``git add -p`` to interactively add part of a file to be
+  committed, for example. You will find the previous commit message as
+  ``.git/COMMIT_EDITMSG``, so you can refer to it when making new
+  commits.
+
+* If you want to split an earlier commit ``X``, you run::
+
+     $ git rebase -i X^
+
+  In the line for ``X``, change ``pick`` to ``edit`` (or just ``e``),
+  save the file, and close the editor. Git will then update to ``X``
+  to allow you to edit the commit. To actually split the commit, you
+  will now use the procedure described above for splitting the last
+  commit. That is, you run::
+
+     $ git reset HEAD^
+
+  to undo the commit. Then commit the files in as many small commits
+  as you like and finally run::
+
+     $ git rebase --continue
+
+  to finish the rebase operation.
 
 
 .. _flake8: http://flake8.readthedocs.org/
