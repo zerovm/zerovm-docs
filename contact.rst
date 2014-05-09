@@ -1,4 +1,6 @@
 
+.. _contact-us:
+
 Contact Us
 ==========
 
