@@ -196,6 +196,65 @@ For Python-based projects, we enforce PEP8_ and Pyflakes_ standards. Checks are
 run automatically on each pull request to signal if there is a style violation.
 
 
+Why make small commits?
+-----------------------
+
+Easy to Review
+""""""""""""""
+
+As mentioned several times above, small commits are easier to review
+than large commits. Trying to understand what a patch that touches 100
+lines does is often more than twice as hard as understanding two
+changes that each touch 50 lines.
+
+
+Makes the History Useful
+""""""""""""""""""""""""
+
+When each commit is an atomic step that takes the code from one
+working state to another, the project history becomes a very useful
+tool when looking for bugs. The ``git bisect`` command helps you here.
+The command runs a binary search on the commit history to help you
+find the commit that introduced a particular bug.
+
+When ``git bisect`` finds the first commits that triggers the bug, the
+real debugging can begin. If the commit it finds is small and does
+just one thing, then it is normally easy to understand why the
+problem.
+
+
+Enables Revert
+""""""""""""""
+
+Sometimes it is decided that the change in the commit should be undone
+-- maybe the commit was found using ``git bisect`` and it is
+determined that it introduced a regression or a bug.
+
+The ``git revert`` command can then be used to undo the commit. It
+will apply an inverse patch to the repository. Since the inverse patch
+is based on a commit, this only works if the entire commit should be
+undone. If there are good, but unrelated changes in the commit, it
+becomes more work to revert it.
+
+
+Selected Independently
+""""""""""""""""""""""
+
+A reviewer might tell you that some part of your pull request is
+great, while another part is not so great. If you have already split
+your work into small logical units, then it is easy for you to drop a
+commit that is not needed. Alternatively, the reviewer can easily use
+``git cherrypick`` to select the commits he like and ignore the rest.
+
+.. admonition:: Further reading
+
+   * `Debugging with Git: Binary Search`_
+   * `5 Reasons for Keeping Your Git Commits as Small as You Can`_
+   * `git help bisect`_
+   * `git help revert`_
+   * `git help cherrypick`_
+
+
 Branches
 --------
 
@@ -391,6 +450,10 @@ is the previous commit or a commit further back in the history.
 .. _`what's in a good commit?`:
    http://dev.solita.fi/2013/07/04/whats-in-a-good-commit.html
 
+.. _5 Reasons for Keeping Your Git Commits as Small as You Can:
+    http://blog.crealytics.com/2010/07/09/
+    5-reasons-keeping-git-commits-small-admin/
+
 .. _pro git: http://git-scm.com/book
 
 .. _`interactive staging: staging patches`:
@@ -408,7 +471,14 @@ is the previous commit or a commit further back in the history.
 .. _`rewriting history: splitting a commit`:
    http://git-scm.com/book/en/Git-Tools-Rewriting-History#Splitting-a-Commit
 
+.. _`Debugging with Git: Binary Search`:
+   http://git-scm.com/book/en/Git-Tools-Debugging-with-Git#Binary-Search
+
 .. _git help add: http://git-scm.com/docs/git-add
 .. _git help commit: http://git-scm.com/docs/git-commit
 .. _git help reset: http://git-scm.com/docs/git-reset
 .. _git help rebase: http://git-scm.com/docs/git-rebase
+
+.. _git help bisect: http://git-scm.com/docs/git-bisect
+.. _git help cherrypick: http://git-scm.com/docs/git-cherrypick
+.. _git help revert: http://git-scm.com/docs/git-revert
