@@ -196,7 +196,7 @@ Branches
 --------
 
 We follow a workflow similar to Git_ where we maintain a branch called
-``stable`` for bugfix releases. This branch is continiously merged
+``stable`` for bugfix releases. This branch is continuously merged
 into ``master`` during normal development -- this ensures that
 bugfixes are incorporated with the newest features.
 
