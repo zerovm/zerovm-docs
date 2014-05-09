@@ -66,22 +66,8 @@ you should:
   is very confusing for a reviewer to read commit A if it calls a
   function introduced later in commit B or C.
 
-Modern distributed version control systems like Git gives you the
-tools to fix these mistakes when they occur. Using the interactive
-mode of ``git rebase``, you can easily reorder commits. While having
-your feature branch checked out, you run::
+See :ref:`git-reorder` for details.
 
-   $ git rebase -i master
-
-This will open your editor with a file that shown an "execution plan"
-for the interactive rebase. Each line represents a commit and by
-reordering the lines you instruct Git to reorder the corresponding
-commits.
-
-After you save the file and close the editor, Git will begin
-reordering commits. If conflicts occur, you should use ``git
-mergetool`` to solve them. This starts your three-way merge tool which
-should let you figure out how to best solve the conflicts.
 
 
 Fixing Your Own Mistakes
@@ -276,6 +262,29 @@ repository you forked on GitHub (the repository living under
 
 Now push the branch to GitHub again with ``git push -f origin
 your-branch``. The pull request will automatically update.
+
+
+.. _git-reorder:
+
+Reordering Commits
+""""""""""""""""""
+
+Modern distributed version control systems like Git gives you the
+tools to reorder commits. Using the interactive mode of ``git
+rebase``, you can easily reorder commits. While having your feature
+branch checked out, you run::
+
+   $ git rebase -i master
+
+This will open your editor with a file that shown an "execution plan"
+for the interactive rebase. Each line represents a commit and by
+reordering the lines you instruct Git to reorder the corresponding
+commits.
+
+After you save the file and close the editor, Git will begin
+reordering commits. If conflicts occur, you should use ``git
+mergetool`` to solve them. This starts your three-way merge tool which
+should let you figure out how to best solve the conflicts.
 
 
 .. _flake8: http://flake8.readthedocs.org/
