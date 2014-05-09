@@ -262,6 +262,7 @@ your-branch``. The pull request will automatically update.
 .. admonition:: Further reading
 
    * `Branching - Rebasing`_
+   * `git help rebase`_
 
 
 .. _git-reorder:
@@ -289,6 +290,7 @@ should let you figure out how to best solve the conflicts.
 .. admonition:: Further reading
 
    * `Rewriting History: Reordering Commits`_
+   * `git help rebase`_
 
 
 .. _git-amend:
@@ -318,6 +320,8 @@ the bug. With these steps, you can easily fix past mistakes.
 .. admonition:: Further reading
 
    * `Interactive Staging: Staging Patches`_
+   * `git help commit`_
+   * `git help add`_
 
 
 .. _git-split:
@@ -375,6 +379,8 @@ is the previous commit or a commit further back in the history.
 .. admonition:: Further reading
 
    * `Rewriting History: Splitting a Commit`_
+   * `git help reset`_
+   * `git help rebase`_
 
 
 .. _flake8: http://flake8.readthedocs.org/
@@ -401,3 +407,8 @@ is the previous commit or a commit further back in the history.
 
 .. _`rewriting history: splitting a commit`:
    http://git-scm.com/book/en/Git-Tools-Rewriting-History#Splitting-a-Commit
+
+.. _git help add: http://git-scm.com/docs/git-add
+.. _git help commit: http://git-scm.com/docs/git-commit
+.. _git help reset: http://git-scm.com/docs/git-reset
+.. _git help rebase: http://git-scm.com/docs/git-rebase
