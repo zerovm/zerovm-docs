@@ -29,8 +29,9 @@ process looks like this:
   You will need to use ``git push -f`` this time. The pull request
   will automatically update and this starts a new review cycle.
 
-Feel free to remind us on IRC or the mailinglist if it takes more than
-a couple of days for us to respond to a pull request.
+Feel free to remind us on :ref:`IRC or the mailinglist <contact-us>`
+if it takes more than a couple of days for us to respond to a pull
+request.
 
 
 Rebasing
