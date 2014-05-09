@@ -44,18 +44,8 @@ merge conflicts initially.
 If the pull request is not merged quickly, it can become outdated.
 This happens when other pull requests are merge in front of it and
 cause merge conflicts with the code you changed. You should then
-rebase the code again.
-
-You rebase your pull request with::
-
-   $ git checkout master
-   $ git pull upstream master
-   $ git rebase master your-branch
-
-This will first make sure that your ``master`` is up to date with
-regards to the upstream repository. The upstream should be the
-repository you forked on GitHub (the repository living under
-``github.com/zerovm/``).
+rebase the code again. See :ref:`git-rebase` for detailed
+instructions.
 
 It will generally be appreciated if you keep your code up to date in
 this way -- even when there are no conflicts. Rebasing regularly
@@ -255,6 +245,38 @@ are also made from ``stable``, but the are preceded by a merge of
 
 This merge brings all the new features developed since the last
 release onto the ``stable`` branch.
+
+
+Git Tips and Tricks
+-------------------
+
+We have collected some tips and tricks for solving common problems
+when using Git.
+
+.. _git-rebase:
+
+Rebasing Stale Pull Requests
+""""""""""""""""""""""""""""
+
+When other pull requests are merged infront of your pull request,
+conflicts can occur. You as a contributor, is often the one who can
+solve these conflicts best -- rebasing the code to the head of
+``master`` will ensure this.
+
+You rebase your pull request with::
+
+   $ git checkout master
+   $ git pull upstream master
+   $ git rebase master your-branch
+
+This will first make sure that your ``master`` is up to date with
+regards to the upstream repository. The upstream should be the
+repository you forked on GitHub (the repository living under
+``github.com/zerovm/``).
+
+Now push the branch to GitHub again with ``git push -f origin
+your-branch``. The pull request will automatically update.
+
 
 .. _flake8: http://flake8.readthedocs.org/
 .. _pep8: http://legacy.python.org/dev/peps/pep-0008/
