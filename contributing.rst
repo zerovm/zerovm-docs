@@ -80,23 +80,8 @@ commit A, he will likely stop and begin write a comment about it. Even
 if you fix the problem yourself in commit B or C, it would have been
 much more helpful if you had avoided introducing it at all.
 
-If the fix concerns the last commit you made, then simply use ``git
-commit --amend`` to redo the commit. You can use ``git commit
---amend`` as many times you want to fine-tune a commit.
-
-If you want to fix something that committed further in the past, you
-should instead follow this procedure:
-
-1. Commit the fix by itself. Use ``git add -p`` to stage just the fix
-   by itself if there are other changes in the same file.
-
-2. Use ``git rebase -i`` to reorder the commits so that the bugfix is
-   right after the commit that introduced the bug. In addition to
-   reordering the commits, change the action from ``pick`` to
-   ``fixup``.
-
-This will do the same as if you had used ``git commit --amend`` to fix
-the bug. With these steps, you can easily fix past mistakes.
+Please see :ref:`git-amend` for details on how to fix such mistakes
+with Git.
 
 
 Writing Good Commits
@@ -285,6 +270,31 @@ After you save the file and close the editor, Git will begin
 reordering commits. If conflicts occur, you should use ``git
 mergetool`` to solve them. This starts your three-way merge tool which
 should let you figure out how to best solve the conflicts.
+
+
+.. _git-amend:
+
+Amending Commits
+""""""""""""""""
+
+When you want to change a commit to fix a bug, you *amend* it in the
+Git terminology. If the fix concerns the last commit you made, then
+simply use ``git commit --amend`` to redo the commit. You can use
+``git commit --amend`` as many times you want to fine-tune a commit.
+
+If you want to fix something that committed further in the past, you
+should instead follow this procedure:
+
+1. Commit the fix by itself. Use ``git add -p`` to stage just the fix
+   by itself if there are other changes in the same file.
+
+2. Use ``git rebase -i`` to reorder the commits so that the bugfix is
+   right after the commit that introduced the bug. In addition to
+   reordering the commits, change the action from ``pick`` to
+   ``fixup``.
+
+This will do the same as if you had used ``git commit --amend`` to fix
+the bug. With these steps, you can easily fix past mistakes.
 
 
 .. _flake8: http://flake8.readthedocs.org/
