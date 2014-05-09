@@ -2,7 +2,8 @@
 Contributing to ZeroVM
 ======================
 
-We love contributors! We follow the C4_ contribution guidelines.
+We love contributors! To make it easy, we've documented the process we
+follow below. Please read through it so you know how we like to work.
 
 
 Pull Requests
@@ -254,7 +255,6 @@ are also made from ``stable``, but the are preceded by a merge of
 This merge brings all the new features developed since the last
 release onto the ``stable`` branch.
 
-.. _c4: https://github.com/zerovm/zvm-community/blob/master/process/c4_1.md
 .. _flake8: http://flake8.readthedocs.org/
 .. _pep8: http://legacy.python.org/dev/peps/pep-0008/
 .. _pyflakes: https://launchpad.net/pyflakes
