@@ -231,6 +231,10 @@ Git Tips and Tricks
 We have collected some tips and tricks for solving common problems
 when using Git.
 
+.. admonition:: Further reading
+
+   * `Pro Git`_
+
 .. _git-rebase:
 
 Rebasing Stale Pull Requests
@@ -255,6 +259,10 @@ repository you forked on GitHub (the repository living under
 Now push the branch to GitHub again with ``git push -f origin
 your-branch``. The pull request will automatically update.
 
+.. admonition:: Further reading
+
+   * `Branching - Rebasing`_
+
 
 .. _git-reorder:
 
@@ -277,6 +285,10 @@ After you save the file and close the editor, Git will begin
 reordering commits. If conflicts occur, you should use ``git
 mergetool`` to solve them. This starts your three-way merge tool which
 should let you figure out how to best solve the conflicts.
+
+.. admonition:: Further reading
+
+   * `Rewriting History: Reordering Commits`_
 
 
 .. _git-amend:
@@ -302,6 +314,10 @@ should instead follow this procedure:
 
 This will do the same as if you had used ``git commit --amend`` to fix
 the bug. With these steps, you can easily fix past mistakes.
+
+.. admonition:: Further reading
+
+   * `Interactive Staging: Staging Patches`_
 
 
 .. _git-split:
@@ -356,6 +372,10 @@ is the previous commit or a commit further back in the history.
 
   to finish the rebase operation.
 
+.. admonition:: Further reading
+
+   * `Rewriting History: Splitting a Commit`_
+
 
 .. _flake8: http://flake8.readthedocs.org/
 .. _pep8: http://legacy.python.org/dev/peps/pep-0008/
@@ -364,3 +384,20 @@ is the previous commit or a commit further back in the history.
 
 .. _`what's in a good commit?`:
    http://dev.solita.fi/2013/07/04/whats-in-a-good-commit.html
+
+.. _pro git: http://git-scm.com/book
+
+.. _`interactive staging: staging patches`:
+   http://git-scm.com/book/en/Git-Tools-Interactive-Staging#Staging-Patches
+
+.. _branching - rebasing:
+   http://git-scm.com/book/en/Git-Branching-Rebasing
+
+.. _rewriting history:
+   http://git-scm.com/book/en/Git-Tools-Rewriting-History
+
+.. _`rewriting history: reordering commits`:
+   http://git-scm.com/book/en/Git-Tools-Rewriting-History#Reordering-Commits
+
+.. _`rewriting history: splitting a commit`:
+   http://git-scm.com/book/en/Git-Tools-Rewriting-History#Splitting-a-Commit
