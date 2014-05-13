@@ -246,13 +246,8 @@ do so, we need to pick an existing Swift container as our deployment target.
 
 .. code-block:: bash
 
-    $ zpm deploy mycontainer hello.zapp --execute
-
-.. note::
-
-    Omitting the ``--execute`` flag will only deploy the application. Work is
-    under way to implement a separate ``zpm execute`` command. See
-    https://github.com/zerovm/zpm/issues/37.
+    $ zpm deploy mycontainer hello.zapp
+    $ zpm execute mycontainer hello.zapp
 
 
 .. _zebra-system-info-sample:
@@ -447,7 +442,8 @@ We can deploy and test ``sysinfo`` in a similar manner to
 .. code-block:: bash
 
     $ zpm bundle
-    $ zpm deploy mycontainer sysinfo.zapp --execute
+    $ zpm deploy mycontainer sysinfo.zapp
+    $ zpm execute mycontainer sysinfo.zapp
 
 
 .. _zebra-wordcount-sample:
@@ -656,7 +652,8 @@ Finally, we can bundle, deploy, and execute our ``wordcount`` application:
 .. code-block:: bash
 
     $ zpm bundle
-    $ zpm deploy wordcount wordcount.zapp --execute
+    $ zpm deploy wordcount wordcount.zapp
+    $ zpm execute wordcount wordcount.zapp
 
 You will notice in the output that the word counts from multiple files are
 printed to the console.
@@ -807,7 +804,8 @@ directive for ``mrwordcount``. It should look like this:
 .. code-block:: bash
 
     $ zpm bundle
-    $ zpm deploy wordcount mrwordcount.zapp --execute
+    $ zpm deploy wordcount mrwordcount.zapp
+    $ zpm execute wordcount mrwordcount.zapp
 
 The output you get should look something like this::
 
