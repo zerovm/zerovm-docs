@@ -249,6 +249,13 @@ do so, we need to pick an existing Swift container as our deployment target.
     $ zpm deploy mycontainer hello.zapp
     $ zpm execute mycontainer hello.zapp
 
+.. tip::
+
+    You can also deploy and execute a zapp using a single ``deploy`` command.
+    For example:
+
+    ``$ zpm deploy mycontainer hello.zapp --execute``
+
 
 .. _zebra-system-info-sample:
 
