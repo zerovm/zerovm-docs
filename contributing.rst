@@ -2,8 +2,19 @@
 Contributing to ZeroVM
 ======================
 
-We love contributors! To make it easy, we've documented the process we
-follow below. Please read through it so you know how we like to work.
+We love contributors! We want to make ZeroVM a successful platform
+with a great community. For this to happen, we want to hear how you
+use ZeroVM and work with you to make it better for your use cases!
+
+To make contributing easy, we've documented the process we follow
+below. Please read through it so you know how we like to work.
+
+.. admonition:: tl;dr
+
+   We work like most other open source projects on GitHub. Make your
+   changes as small commits and submit them as a pull request. We'll
+   be in touch and work with you to get the changes into the main
+   tree as fast as possible!
 
 
 Pull Requests
@@ -31,7 +42,8 @@ process looks like this:
 
 Feel free to remind us on :ref:`IRC or the mailinglist <contact-us>`
 if it takes more than a couple of days for us to respond to a pull
-request.
+request. The IRC channel is also a great place to get some real-time
+feedback on a pull request.
 
 
 Rebasing
