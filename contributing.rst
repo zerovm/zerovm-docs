@@ -5,6 +5,13 @@ Contributing to ZeroVM
 We love contributors! To make it easy, we've documented the process we
 follow below. Please read through it so you know how we like to work.
 
+.. admonition:: tl;dr
+
+   We work like most other open source projects on GitHub. Make your
+   changes as small commits and submit them as a pull request. We'll
+   be in touch and work with you to get the changes into the main
+   tree as fast as possible!
+
 
 Pull Requests
 -------------
