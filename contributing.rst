@@ -42,7 +42,8 @@ process looks like this:
 
 Feel free to remind us on :ref:`IRC or the mailinglist <contact-us>`
 if it takes more than a couple of days for us to respond to a pull
-request.
+request. The IRC channel is also a great place to get some real-time
+feedback on a pull request.
 
 
 Rebasing
