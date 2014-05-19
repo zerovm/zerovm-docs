@@ -2,8 +2,12 @@
 Contributing to ZeroVM
 ======================
 
-We love contributors! To make it easy, we've documented the process we
-follow below. Please read through it so you know how we like to work.
+We love contributors! We want to make ZeroVM a successful platform
+with a great community. For this to happen, we want to hear how you
+use ZeroVM and work with you to make it better for your use cases!
+
+To make contributing easy, we've documented the process we follow
+below. Please read through it so you know how we like to work.
 
 .. admonition:: tl;dr
 
