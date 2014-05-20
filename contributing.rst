@@ -76,7 +76,7 @@ Fixing Your Own Mistakes
 Nobody writes perfect code in the first try, so it often happens that
 you discover a mistake in an earlier commit. Please pay attention to
 this situation. When a reviewer sees a bug or some bad design in
-commit A, he will likely stop and begin write a comment about it. Even
+commit A, they will likely stop and begin write a comment about it. Even
 if you fix the problem yourself in commit B or C, it would have been
 much more helpful if you had avoided introducing it at all.
 
@@ -140,8 +140,8 @@ for the reviewer to accept the commit.
 In general, you should *stop* when you see yourself include the word
 "and" in a commit message. If you feel the need to make a bullet list,
 then you are likely including too much in the commit. In any case, you
-should work with your reviewer. Try to follow his advice or explain to
-him why the changes really belong together.
+should work with your reviewer. Try to follow their advice or explain to
+them why the changes really belong together.
 
 
 Commit Messages
