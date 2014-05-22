@@ -19,7 +19,7 @@ We host our mailing lists at Google Groups. We have two mailing lists:
 
   .. __: https://groups.google.com/forum/#!forum/zerovm
 
-* A list for development: zerovm@googlegroups.com. This list is used
+* A list for development: zerovm-devel@googlegroups.com. This list is used
   for discussion about the ongoing development of ZeroVM. Please
   `signup on Google Groups`__.
 
