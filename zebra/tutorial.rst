@@ -29,9 +29,9 @@ install the `ZeroVM Package Manager </projects/zerovm-zpm>`_. ``zpm`` is
 written in pure Python and should run on all major platforms (Linux, OSX,
 Windows, etc.).
 
-Installing ``zpm`` directly from `GitHub <https://github.com/zerovm/zpm>`_::
+Installing ``zpm`` directly from `PyPI <https://pypi.python.org/pypi>`_::
 
-    $ pip install git+https://github.com/zerovm/zpm.git
+    $ pip install zpm
 
 If you want to test your application locally before deploying it you will need
 to install ZeroVM itself, as well a few other command-line utilities. At
