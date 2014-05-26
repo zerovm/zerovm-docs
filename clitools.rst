@@ -11,7 +11,7 @@ zvsh and zvapp
 
 zvsh is a simple shell program that makes it easy to run a single zerovm instance on a local machine.  zvapp is a tool to run a cluser of zerovm instances on a single machine.
 
-* `zvsh and zvapp repository <https://github.com/zerovm/zerovm-cli/>`_
+* `zvsh and zvapp </projects/zerovm-cli/>`_
 
 zpm
 ---
