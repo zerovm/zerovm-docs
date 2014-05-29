@@ -19,6 +19,8 @@ ZeroVM applications are structured and what they can do.
 Getting access
 --------------
 
+For more details about getting access to Zebra please see the section on :ref:`access`.
+
 .. _zebra-install-cli-tools:
 
 Installing command-line tools
