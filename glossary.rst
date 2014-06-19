@@ -85,6 +85,11 @@ Glossary of Terms
    .. TODO(larsbutler): Linked more detailed docs page here, with a
    .. full description of the NVRAM file and all of its fields.
 
+   System Map
+
+     The system map is the JSON configuration file that is passed to
+     the ZeroCloud middleware when executing a job within ZeroCloud.
+   
    Trusted
 
      ZeroVM and the :term:`ZRT`. Provides a secure sandbox for running
