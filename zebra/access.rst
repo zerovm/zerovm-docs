@@ -19,8 +19,9 @@ If you are interested in getting access to Zebra to begin experimenting with the
 ZeroVM you must first request an invite code. You can request an invite code by
 emailing: zebra-requests@zerovm.org.  Please include your name and a brief
 description of the use case that you would like to experiment with on Zebra.
-Over the next few weeks we will be sending out invite codes to community members
-as we work towards a more automated way of controlling access to Zebra. 
+We began sending invite codes out in May of 2014 and will continue to send
+invite codes to community members as we work towards a more automated way of 
+controlling access to Zebra. 
 
 Creating an Account on Zebra
 -------------------------------
@@ -66,5 +67,5 @@ In addition to the File Manager, there are a variety of Command Line Tools
 the :ref:`clitools` in another section of this site.
 
 Finally, you can also interact directly with the Zebra API via HTTP using a tool
-such as cURL. This type of interation is beyond the scope of this documentation.
+such as cURL. This type of interaction is beyond the scope of this documentation.
 
