@@ -66,6 +66,50 @@ Configuring your development environment
 `configuring zpm auth for ZeroCloud
 </projects/zerovm-zpm/zerocloud-auth-config>`_.
 
+Example authentication:
+
+Auth v1
+"""""""
+
+From `Zebra <https://zebra.zerovm.org>`_, make note of the Auth URL, Tenant, Auth User, and Auth Key.
+
+.. code-block:: bash
+    
+    $ zpm deploy --auth [Auth URL] \
+                 --user [Tenant]:[Auth User] \
+                 --key [Auth Key] \
+             test_container hello.zapp
+
+Or set the following environment variables:
+
+.. code-block:: bash
+
+    $ export ST_AUTH=[Auth URL]
+    $ export ST_USER=[Tenant]:[Auth User]
+    $ export ST_KEY=[Auth Key]
+
+Auth v2
+"""""""
+
+From `Zebra <https://zebra.zerovm.org>`_, make note of the Auth URL, Tenant, Auth User, and your password.
+
+.. code-block:: bash
+    
+    $ zpm deploy --os-auth-url [Auth URL] \
+                 --os-username [Auth User] \
+                 --os-tenant-name [Tenant] \
+                 --os-password [Password] \
+             test_container hello.zapp
+             
+Or set the following environment variables:
+
+.. code-block:: bash
+
+    $ export OS_AUTH_URL=[Auth URL]
+    $ export OS_USERNAME=[Auth User]
+    $ export OS_PASSWORD=[Password]
+    $ export OS_TENANT_NAME=[Tenant]
+
 .. _zebra-sample-apps:
 
 Sample applications
@@ -244,7 +288,8 @@ do so, we need to pick an existing Swift container as our deployment target.
 
     If a container doesn't exist, you can create it using the
     `python-swiftclient <https://github.com/openstack/python-swiftclient>`_
-    with the ``swift post <container-name>`` command.
+    with the ``swift post <container-name>`` command. You can also create a 
+    container using the Zebra File Manager.
 
 .. code-block:: bash
 
