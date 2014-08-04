@@ -29,8 +29,7 @@ Creating an Account on Zebra
 Once you have an invite code (see above) you can follow these steps to create an
 account on Zebra.  Keep in mind that because Zebra is integrated with Google
 authentication you must have a Google account (a gmail account works) in order
-to create an account on Zebra. If your gmail account is setup for two-factor auth, 
-you will not be able to use it to access Zebra.
+to create an account on Zebra.
 
 #. Navigate to the Zebra registration page:
    https://zebra.zerovm.org/register.html
