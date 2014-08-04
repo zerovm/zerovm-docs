@@ -27,7 +27,7 @@ Installing command-line tools
 -----------------------------
 
 To run ZeroVM applications on Zebra/ZeroCloud, you will at least need to
-install the `ZeroVM Package Manager </projects/zerovm-zpm>`_. ``zpm`` is
+install the `ZeroVM Package Manager </projects/zerovm-zpm/en/latest/>`_. ``zpm`` is
 written in pure Python and should run on all major platforms (Linux, OSX,
 Windows, etc.).
 
@@ -64,7 +64,7 @@ Configuring your development environment
 
 ``zpm`` must authenticate to Zebra/ZeroCloud to deploy applications. See
 `configuring zpm auth for ZeroCloud
-</projects/zerovm-zpm/zerocloud-auth-config>`_.
+</projects/zerovm-zpm/en/latest/zerocloud-auth-config.html>`_.
 
 Example authentication:
 
@@ -254,7 +254,7 @@ The final result should look something like this:
       - "hello.py"
 
 Check the `zpm documentation
-</projects/zerovm-zpm>`_ for more information about the ``zapp.yaml`` contents.
+</projects/zerovm-zpm/en/latest/>`_ for more information about the ``zapp.yaml`` contents.
 
 5. Test the application locally using ``zvsh``
 ..............................................
