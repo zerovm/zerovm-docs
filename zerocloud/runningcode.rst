@@ -33,7 +33,7 @@ POST a Python script
 
 This is the simplest and easiest way to execute code on ZeroCloud.
 
-First, write the following the code into a file called ``pyscript``.
+First, write the following the code into a file called ``example``.
 
 .. code-block:: python
 
@@ -46,7 +46,7 @@ Execute it using ``curl``:
 
 .. code-block:: bash
 
-    $ curl -i -X POST -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" -H "Content-Type: application/python" --data-binary @pyscript $OS_STORAGE_URL
+    $ curl -i -X POST -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" -H "Content-Type: application/python" --data-binary @example $OS_STORAGE_URL
 
 
 Using a Python script:
@@ -63,7 +63,7 @@ Using a Python script:
         'Content-Type': 'application/python',
     }
 
-    with open('pyscript') as fp:
+    with open('example') as fp:
         response = requests.post(storage_url,
                                  data=fp.read(),
                                  headers=headers)
