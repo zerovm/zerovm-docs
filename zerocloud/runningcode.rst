@@ -299,4 +299,4 @@ Your ``job.json`` file should now look like this:
         ]
     }]
 
-Try running that and see the different in the output.
+Try running that and see the difference in the output.
