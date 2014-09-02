@@ -151,7 +151,146 @@ Using a Python script:
                                  headers=headers)
         print(response.content)
 
-POST a job description to a ZeroVM application (zapp)
------------------------------------------------------
+POST a job description to a ZeroVM application
+----------------------------------------------
 
-TODO
+This method is useful if you want to execute the same application multiple
+times, for example, to run an application to process multiple different files.
+
+In this example, we will upload a packaged application into Swift and then
+subsequently POST job descriptions to execute the application. This can be done
+multiple times, and with different arguments. We'll use this to build a small
+application
+
+``main.py``:
+
+.. code-block:: python
+
+    import csv
+    with open('/dev/input') as fp:
+        reader = csv.reader(fp)
+
+        for id, name, email, balance in reader:
+            print('%(name)s: %(balance)s' % dict(name=name, balance=balance))
+
+Create an ``example.tar`` containing the Python script:
+
+.. code-block:: bash
+
+    $ tar cf example.tar main.py
+
+Create a container for the application:
+
+.. code-block:: bash
+
+    $ swift post example
+
+Upload the image into Swift:
+
+.. code-block:: bash
+
+    $ swift upload example example.tar
+
+Now we need a couple of files for the application to read and process.
+
+``data1.csv``:
+
+.. code-block:: text
+
+    id,name,email,balance
+    1,Alice,alice@example.com,1000
+    2,Bob,bob@example.com,-500
+
+``data2.csv``:
+
+.. code-block:: text
+
+    id,name,email,balance
+    3,David,david@example.com,15000
+    4,Erin,erin@example.com,25000
+
+Upload the data files into Swift:
+
+.. code-block:: bash
+
+    $ swift upload example data1.csv data2.csv
+
+``job.json``:
+
+.. code-block:: javascript
+
+    [{
+        "name": "example",
+        "exec": {
+            "path": "file://python2.7:python",
+            "args": "main.py"
+        },
+        "devices": [
+            {"name": "python2.7"},
+            {"name": "stdout"},
+            {"name": "input", "path": "swift://~/example/data1.csv"},
+            {"name": "image", "path": "swift://~/example/example.tar"}
+        ]
+    }]
+
+Execute it using ``curl``:
+
+.. code-block:: bash
+
+    $ curl -i -X POST -H "Content-Type: application/json" \
+      -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" \
+      --data-binary @job.json $OS_STORAGE_URL
+
+Execute it using a Python script:
+
+.. code-block:: python
+
+    import os
+    import requests
+
+    storage_url = os.environ.get('OS_STORAGE_URL')
+    headers = {
+        'X-Zerovm-Execute': 1.0,
+        'X-Auth-Token': os.environ.get('OS_AUTH_TOKEN'),
+        'Content-Type': 'application/json',
+    }
+
+    with open('job.json') as fp:
+        response = requests.post(storage_url,
+                                 data=fp.read(),
+                                 headers=headers)
+        print(response.content)
+
+You can process a different input file by simply changing the ``job.json`` and
+re-running the application (using ``curl`` or the Python script above). For
+example, change this line
+
+.. code-block:: text
+
+    {"name": "input", "path": "swift://~/example/data2.csv"},
+
+to this:
+
+.. code-block:: text
+
+    {"name": "input", "path": "swift://~/example/data2.csv"},
+
+Your ``job.json`` file should now look like this:
+
+.. code-block:: javascript
+
+    [{
+        "name": "example",
+        "exec": {
+            "path": "file://python2.7:python",
+            "args": "main.py"
+        },
+        "devices": [
+            {"name": "python2.7"},
+            {"name": "stdout"},
+            {"name": "input", "path": "swift://~/example/data1.csv"},
+            {"name": "image", "path": "swift://~/example/example.tar"}
+        ]
+    }]
+
+Try running that and see the different in the output.
