@@ -294,7 +294,7 @@ Your ``job.json`` file should now look like this:
         "devices": [
             {"name": "python2.7"},
             {"name": "stdout"},
-            {"name": "input", "path": "swift://~/example/data1.csv"},
+            {"name": "input", "path": "swift://~/example/data2.csv"},
             {"name": "image", "path": "swift://~/example/example.tar"}
         ]
     }]
