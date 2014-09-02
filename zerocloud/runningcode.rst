@@ -46,7 +46,9 @@ Execute it using ``curl``:
 
 .. code-block:: bash
 
-    $ curl -i -X POST -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" -H "Content-Type: application/python" --data-binary @example $OS_STORAGE_URL
+    $ curl -i -X POST -H "X-Auth-Token: $OS_AUTH_TOKEN" \
+      -H "X-Zerovm-Execute: 1.0" -H "Content-Type: application/python" \
+      --data-binary @example $OS_STORAGE_URL
 
 
 Using a Python script:
@@ -83,17 +85,19 @@ which tells ZeroCloud what to execute.
 
 This is useful if your code consists of multiple source files (not just a
 single script). You can pack everything into a single file and execute it.
+This method is also useful if you want to just execute something once, meaning
+that once ZeroCloud executes the application, the app is thrown away.
 
 In this example, we'll do just that. Create the following files:
 
-mymath.py:
+``mymath.py``:
 
 .. code-block:: python
 
     def add(a, b):
         return a + b
 
-main.py:
+``main.py``:
 
 .. code-block:: python
 
@@ -103,7 +107,7 @@ main.py:
     the_sum = mymath.add(a, b)
     print("%s + %s = %s" % (a, b, the_sum))
 
-boot/system.map:
+``boot/system.map``:
 
 .. code-block:: javascript
 
@@ -129,7 +133,9 @@ Execute the ZeroVM image directly on ZeroCloud using ``curl``:
 
 .. code-block:: bash
 
-    $ curl -i -X POST -H "Content-Type: application/x-tar" -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" --data-binary @example.tar $OS_STORAGE_URL
+    $ curl -i -X POST -H "Content-Type: application/x-tar" \
+      -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" \
+      --data-binary @example.tar $OS_STORAGE_URL
 
 Using a Python script:
 
