@@ -300,3 +300,101 @@ Your ``job.json`` file should now look like this:
     }]
 
 Try running that and see the difference in the output.
+
+Run a ZeroVM application with an object GET
+-------------------------------------------
+
+It is possible to attach applications to particular types of objects and run
+that application when the object is retrieved (using a GET request) from Swift.
+
+In this example, we'll write an application which processes JSON file objects
+returns a pretty-printed version of the contents. The idea here is that we take
+some raw JSON data and make it more human-readable.
+
+Create the following files.
+
+``data.json``:
+
+.. code-block:: javascript
+
+    {"type": "GeometryCollection", "geometries": [{ "type": "Point", "coordinates": [100.0, 0.0]}, {"type": "LineString", "coordinates": [[101.0, 0.0], [102.0, 1.0]]}]}
+
+``prettyprint.py``:
+
+.. code-block:: python
+
+    import json
+    import pprint
+
+    with open('/dev/input') as fp:
+        data = json.load(fp)
+        print(pprint.pformat(data))
+
+``config``:
+
+.. code-block:: javascript
+
+    [{
+        "name": "prettyprint",
+        "exec": {
+            "path": "file://python2.7:python",
+            "args": "prettyprint.py"
+        },
+        "devices": [
+            {"name": "python2.7"},
+            {"name": "stdout"},
+            {"name": "input", "path": "{.object_path}"},
+            {"name": "image", "path": "swift://~/example/prettyprint.tar"}
+        ]
+    }]
+
+
+Upload the test data:
+
+.. code-block:: bash
+
+    $ swift post example  # creates the container, if it doesn't exist already
+    $ swift upload example data.json
+
+Bundle and upload the application:
+
+.. code-block:: bash
+
+    $ tar cf prettyprint.tar prettyprint.py
+    $ swift upload example prettyprint.tar
+
+Upload the configuration to a ``.zvm`` container:
+
+.. code-block:: bash
+
+    $ swift post .zvm  # creates the container, if it doesn't exist already
+    $ swift upload .zvm config --object-name=application/json/config
+
+Now submit a GET request to the file, and it will be processed by the
+``prettyprint`` application. Setting the ``X-Zerovm-Execute`` header to
+``open/1.0`` is required to make this work. (Without this header you'll just
+get the raw file, unprocessed.)
+
+Using ``curl``:
+
+.. code-block:: bash
+
+    $ curl -i -X GET $OS_STORAGE_URL/example/data.json \
+      -H "X-Zerovm-Execute: open/1.0" -H "X-Auth-Token: $OS_AUTH_TOKEN"
+
+Using a Python script:
+
+.. code-block:: python
+
+    import os
+    import requests
+
+    storage_url = os.environ.get('OS_STORAGE_URL')
+    headers = {
+        'X-Zerovm-Execute': 'open/1.0',
+        'X-Auth-Token': os.environ.get('OS_AUTH_TOKEN'),
+    }
+
+    response = requests.get(storage_url + '/example/data.json',
+                            headers=headers)
+    print(response.content)
