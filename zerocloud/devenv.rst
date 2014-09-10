@@ -4,8 +4,9 @@ Setting up a development environment
 ==============================================
 
 The easiest way to get up and running is to install and run ZeroCloud on
-DevStack (link) inside VirtualBox. We provide some Vagrant (link) scripts
-to make the setup require little effort.
+`DevStack <http://devstack.org/>`_ inside VirtualBox. We provide some
+`Vagrant <http://www.vagrantup.com>`_ scripts to make the setup require little
+effort.
 
 With this environment, you can not only write and run applications on
 ZeroCloud, but you can also hack on ZeroCloud on itself.
@@ -26,7 +27,7 @@ Download and install Vagrant: https://www.vagrantup.com/downloads.html.
 Clone the ZeroCloud source code
 -------------------------------
 
-First, download and install Git: http://git-scm.com/downloads
+First, you'll need to download and install Git: http://git-scm.com/downloads
 
 From a command line, clone the soure code. In this example, we just checkout
 the code into a ``zerocloud`` folder in our home directory.
@@ -34,7 +35,6 @@ the code into a ``zerocloud`` folder in our home directory.
 .. code-block:: bash
 
     $ git clone https://github.com/zerovm/zerocloud.git $HOME/zerocloud
-
 
 vagrant up
 ----------
@@ -96,6 +96,11 @@ handful of tools. You can install all of these tools from PyPI using ``pip``.
 .. code-block:: bash
 
     $ pip install python-swiftclient python-keystoneclient zpm
+
+.. note::
+
+    ``zpm`` (ZeroVM Package Manager) is a tool which make it easier to develop,
+    package, and deploy applications for ZeroCloud.
 
 To authenticate with your ZeroCloud installation, you'll need to set up your
 credentials in some environment variables. A configuration file is provided
