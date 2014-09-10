@@ -7,18 +7,6 @@ ZeroVM is a light-weight virtualization platform. It allows you to run
 untrusted code with a minimum of overhead.
 
 
-Contributing to ZeroVM
-----------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   contributing
-   release-schedule
-   contact
-   glossary
-
-
 The ZeroCloud Platform
 ----------------------
 
@@ -49,3 +37,14 @@ ZeroVM includes a number of command line tools to make it easier to interact wit
 
    clitools
 
+
+Contributing to ZeroVM
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   contributing
+   release-schedule
+   contact
+   glossary
