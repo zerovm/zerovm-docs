@@ -7,8 +7,8 @@ ZeroVM is a light-weight virtualization platform. It allows you to run
 untrusted code with a minimum of overhead.
 
 
-Getting Started with ZeroVM
----------------------------
+Contributing to ZeroVM
+----------------------
 
 .. toctree::
    :maxdepth: 2
