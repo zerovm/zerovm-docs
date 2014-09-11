@@ -1,7 +1,7 @@
 .. _index:
 
-Welcome to ZeroVM
-=================
+Welcome to ZeroVM's Documentation!
+==================================
 
 ZeroVM is a light-weight virtualization platform. It allows you to run
 untrusted code with a minimum of overhead.
