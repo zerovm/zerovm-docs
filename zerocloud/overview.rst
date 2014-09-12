@@ -1,6 +1,6 @@
 .. _zerocloud-overview:
 
-What is ZeroCloud?
+ZeroCloud Overview
 ==================
 
 ZeroCloud is a converged cloud storage and compute platform, powered by
