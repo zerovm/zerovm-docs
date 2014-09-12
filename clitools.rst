@@ -1,8 +1,7 @@
 .. _clitools:
 
-
-ZeroVM CLI Tools
-================
+ZeroVM Command Line Tools
+=========================
 
 The ZeroVM project includes a number of command line tools that make
 it easier to interact with ZeroVM and Zwift deployments.
