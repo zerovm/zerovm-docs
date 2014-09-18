@@ -9,6 +9,12 @@ ZeroCloud is a converged cloud storage and compute platform, powered by
 scalable object storage capabilities of Swift with the application isolation
 of ZeroVM to create a platform for developing cloud applications.
 
+The key concept of ZeroCloud is data-local computation: instead of pushing and
+pull data between the data storage nodes and computation nodes, we send the
+application to the data and do the work the in-place on the storage system.
+Another way to think about it: it's like stored procedures (for a relational
+database), but *much* more powerful and scalable.
+
 Use cases
 ---------
 
@@ -35,7 +41,7 @@ Currently, you can only write applications for ZeroCloud using Python and
 C/C++. This limitation comes from the ZeroVM execution environment, which
 requires applications to be cross-compiled to
 `NaCl <http://en.wikipedia.org/wiki/Google_Native_Client>`_ for validation
-and execution.
+and secure execution.
 
 The recommended development language for ZeroCloud is Python. Python 2.7.3
 has been ported to NaCl and is available to use on ZeroVM and ZeroCloud.
