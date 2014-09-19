@@ -59,6 +59,7 @@ ZeroCloud: Cloud storage & compute platform
    zerocloud/overview
    zerocloud/devenv
    zerocloud/runningcode
+   zerocloud/snakebin/snakebin
 
 
 ZeroVM Command Line Tools
