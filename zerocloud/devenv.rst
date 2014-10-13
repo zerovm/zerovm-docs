@@ -87,8 +87,8 @@ restarts are easier. Run ``./rejoin_stack.sh`` as above, press
 To log out of the vagrant box and keep everything running, press 'ctrl+a d' to
 detach from the screen session. You can now log out of the box ('ctrl+d').
 
-Install command line clients
-----------------------------
+Install and configure command line clients
+------------------------------------------
 
 To interact with and test your ZeroCloud deployment, you'll need to install a
 handful of tools. You can install all of these tools from PyPI using ``pip``. 
@@ -119,3 +119,11 @@ You can test your client configuration by running ``zpm auth``:
     $ zpm auth
     Auth token: PKIZ_Zrz_Qa5NJm44FWeF7Wp...
     Storage URL: http://127.0.0.1:8080/v1/AUTH_7fbcd8784f8843a180cf187bbb12e49c
+
+Setting a couple of environment variables with these values will make commands
+more concise and convenient to execute:
+
+.. code-block:: bash
+
+    $ export OS_AUTH_TOKEN=PKIZ_Zrz_Qa5NJm44FWeF7Wp...
+    $ export OS_STORAGE_URL=http://127.0.0.1:8080/v1/AUTH_7fbcd8784f8843a180cf187bbb12e49c
