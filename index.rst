@@ -26,8 +26,8 @@ If you're interested in learning in depth about the core ZeroVM sandbox
 technology, check out the :ref:`ZeroVM core documentation <zerovm>`.
 
 If you're interested in developing web applications, MapReduce applications, or
-just need handle large amounts of data, you don't need to know too many details
-about the core ZeroVM sandbox technology; you can skip straight to the
+just to need handle large amounts of data, you don't need to know too many
+details about the core ZeroVM sandbox technology; you can skip straight to the
 :ref:`ZeroCloud section<zerocloud>`.
 
 
