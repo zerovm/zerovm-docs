@@ -394,14 +394,143 @@ trying to browse the the document we created above on the command line
 
 .. _snakebin_part2:
 
-Part 2: Script Execution
-------------------------
+Part 2: Execute Scripts
+-----------------------
 
-part2
+API updates
++++++++++++
+
+To support script execution via HTTP (either from the command line or browser),
+we will need to add a couple more endpoints to our API:
+
+``GET /snakebin-api/:script/execute``:
+
+    Execute the specified ``:script`` and return the output as text.
+    The script must already exist and be available at
+    ``/snakebin-api/:script``.
+
+``POST /snakebin-api/execute``:
+
+    Execute the contents of the request as a Python script and return the
+    output as text.
+
+The following changes will implement these two endpoints.
+
+The Code
+++++++++
+
+First, let's update the ``post()`` handler function:
+
+.. literalinclude:: snakebin_part2.py
+   :pyobject: post
+   :emphasize-lines: 7-11,13-45
+
+Then update the ``get()`` handler function to allow ``/execute`` to specified
+on the end of a document URL (to execute the document instead of retrieving it:
+
+.. literalinclude:: snakebin_part2.py
+   :pyobject: get
+   :emphasize-lines: 4-26
+
+The important change here is the parsing of the ``execute`` from the request
+URL and the setting of the ``SNAKEBIN_EXECUTE`` environment variable, which
+will be read by ``get_file.py``.
+
+``get()`` needs the ``re`` (regular expressions) module from the standard
+library. Add an import statement for that to the top of ``snakebin.py``:
+
+.. code-block:: python
+
+    import re
+
+Next, add a new function to ``snakebin.py`` called ``execute_code``. This
+will be used for executing the arbitrary code that users submit through
+Snakebin.
+
+.. literalinclude:: snakebin_part2.py
+   :pyobject: execute_code
+
+This new function requires the ``StringIO`` and ``imp`` modules from the
+standard library, so add some import statements for both of those to the top of
+``snakebin.py``:
+
+.. code-block:: python
+
+    import imp
+    import StringIO
+
+``snakebin.py`` should now look like this:
+
+.. literalinclude:: snakebin_part2.py
+   :language: python
+
+Next, we need to make some modifications to ``get_file.py`` to allow execution
+of a script. We need to read the ``SNAKEBIN_EXECUTE`` environment variable
+and execute a script if it is present. Update ``get_file.py`` to this:
+
+.. literalinclude:: get_file_part2.py
+   :emphasize-lines: 11,14-25,28-31
+
+We now need to update the UI with a "Run" button to hook in the execution
+functionality. Update your ``index.html`` to look like this:
+
+.. literalinclude:: index_part2.html
+   :language: html
+   :emphasize-lines: 42-68,77,80-87
+
+
+Redeploy the application
+++++++++++++++++++++++++
+
+First, rebundle your application files:
+
+.. code-block:: bash
+
+    $ zpm bundle
+
+To redeploy, we'll use the same ``zpm`` command as before, but we'll need to
+specify the ``--force`` flag, since we're deploying to an un-empty container:
+
+.. code-block:: bash
+
+    $ zpm deploy snakebin-app snakebin.zapp --force
+
+Test
+++++
+
+First, let's try executing one of the scripts we already uploaded. This can be
+done simply by ``curl``ing the URL of the script and appending ``/execute``:
+
+.. code-block:: bash
+
+    $ curl http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb/execute
+    hello world!
+
+Next, let's trying posting the ``example.py`` script directly to the
+``/snakebin-api/execute`` endpoint:
+
+.. code-block:: bash
+
+    $ curl -X POST http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/execute
+    hello world!
+
+Let's also test the functionality in the web browser. If you nagivate to
+``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+look something like this:
+
+.. image:: snakebin_part2_ui.png
+   :width: 400
+
+Try writing some code into the text box and click ``Run`` to execute them.
+
+Try also accessing the ``/snakebin-api/:script/execute`` endpoint directly
+in the browser using the same the URL in the POST example above:
+
+``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb/execute``
 
 .. _snakebin_part3:
 
-Part 3: MapReduce Search
-------------------------
+Part 3: Search Scripts
+----------------------
 
-part3
+TODO

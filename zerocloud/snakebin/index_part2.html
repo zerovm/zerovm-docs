@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snakebin</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/codemirror.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/codemirror.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/mode/python/python.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            // Add syntax highlighting for Python code:
+            var code = $('#code')[0];
+            var editor = CodeMirror.fromTextArea(code, {
+                mode: "text/x-python",
+                lineNumbers: true
+            });
+
+            // Called when a script posting is successful.
+            var saveSuccess = function(data, textStatus, jqXHR) {
+                var url = jqXHR.responseText;
+                $('#save-status').html(
+                    'Saved to <a id="save-url" href="' + url
+                    + '">' + url + '</a>'
+                );
+            };
+
+            // Attach save functionality to the "Save" button
+            $('#save').click(function() {
+                var request = {
+                    'url': window.location.href,
+                    'type': 'post',
+                    'data': editor.getValue(),
+                    'headers': {
+                        'X-Zerovm-Execute': 'api/1.0'
+                    },
+                    'success': saveSuccess
+                };
+                $.ajax(request);
+            });
+
+            // Called when a script execution is successful.
+            var runSuccess = function(data, textStatus, jqXHR) {
+                var statusText = '';
+                statusText += textStatus;
+                statusText += ', X-Nexe-Retcode: ' + jqXHR.getResponseHeader('X-Nexe-Retcode');
+                statusText += ', X-Nexe-Status: ' + jqXHR.getResponseHeader('X-Nexe-Status');
+                $('#run-status').text(statusText);
+                // Convert newlines to br tags and display execution output
+                $('#run-output').html(jqXHR.responseText.replace(/\n/g, '<br />'));
+            };
+
+            // Attach run functionality to the "Run" button
+            $('#run').click(function() {
+                var execUrl = (window.location.href.split('snakebin-api')[0]
+                               + 'snakebin-api/execute');
+                var request = {
+                    'url': execUrl,
+                    'type': 'post',
+                    'data': editor.getValue(),
+                    'headers': {
+                        'X-Zerovm-Execute': 'api/1.0'
+                    },
+                    'success': runSuccess
+                };
+                $.ajax(request);
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <textarea id="code" rows="15" cols="80" wrap="off"
+              autocorrect="off" autocomplete="off"
+              autocapitalize="off" spellcheck="false">{code}</textarea>
+    <p>
+      <input id="save" type="submit" value="Save" />
+      <input id="run" type="submit" value="Run" />
+      <div id="save-status"></div>
+    </p>
+    <hr />
+    <p>Status:</p>
+    <div id="run-status"></div>
+    <hr />
+    <p>Output:</p>
+    <div id="run-output" style="font-family: monospace;"></div>
+  </body>
+</html>
