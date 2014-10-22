@@ -91,11 +91,13 @@ Install command line clients
 ----------------------------
 
 To interact with and test your ZeroCloud deployment, you'll need to install a
-handful of tools. You can install all of these tools from PyPI using ``pip``.
+handful of tools. You can install all of these tools from PyPI using ``pip``. 
+
+From within your vagrant VM execute the following:
 
 .. code-block:: bash
 
-    $ pip install python-swiftclient python-keystoneclient zpm
+    $ sudo pip install python-swiftclient python-keystoneclient zpm
 
 .. note::
 
@@ -108,7 +110,7 @@ for convenience in ``$HOME/zerocloud/contrib/vagrant``.
 
 .. code-block:: bash
 
-    $ source adminrc
+    $ source /vagrant/adminrc
 
 You can test your client configuration by running ``zpm auth``:
 
