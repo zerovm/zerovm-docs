@@ -533,4 +533,92 @@ in the browser using the same the URL in the POST example above:
 Part 3: Search Scripts
 ----------------------
 
-TODO
+API updates
++++++++++++
+
+The final endpoint we'll add to our API is ``search``:
+
+``GET /snakebin-api/search?q=:term``:
+
+    Return a JSON list of URLs to the documents (in ``snakebin-store``)
+    which contain ``:term``. When this endpoint is hit, a MapReduce job of
+    multiple nodes will be spawned to perform the search.
+
+The Code
+++++++++
+
+For the MapReduce job, we need to add two new Python modules.
+
+``search_mapper.py``
+
+.. literalinclude:: search_mapper.py
+
+``search_reducer.py``
+
+.. literalinclude:: search_reducer.py
+
+These two files will perform the search operation. Now we need to modify the
+``get`` function in ``snakebin.py`` to support the new endpoint:
+
+.. literalinclude:: snakebin_part3.py
+   :pyobject: get
+   :emphasize-lines: 3-49
+
+This updated version of ``get`` requires ``urllib`` for unquoting search
+strings. We'll need to import it:
+
+.. code-block:: python
+
+    import urllib
+
+Now for the final changes to the user interface:
+
+.. literalinclude:: index_part3.html
+   :language: html
+   :emphasize-lines: 69-92,97-102
+
+We also need to update the ``zapp.yaml`` to include the new Python files.
+Update the bundling section:
+
+.. code-block:: yaml
+
+    bundling: ["snakebin.py", "save_file.py", "get_file.py", "index.html",
+               "search_mapper.py", "search_reducer.py"]
+
+Redeploy the application
+++++++++++++++++++++++++
+
+Just as we did before in :ref:`part 2 <snakebin_part2>`, we need to redeploy
+the application, using ``zpm``:
+
+.. code-block:: bash
+
+    $ zpm bundle
+    $ zpm deploy snakebin-app snakebin.zapp --force
+
+Test
+++++
+
+First, let's try executing the search on the command line. (You should post
+a couple of a scripts to Snakebin first, other your search won't return
+anything, obviously.)
+
+.. code-block:: bash
+
+    $ curl http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/search?q=foo
+    ["http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/IOFW0Z8UYR", "http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/e2X0hNA9ld"]
+
+Let's also test the functionality in the web browser. If you navigate to
+``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+look something like this:
+
+``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+look something like this:
+
+.. image:: snakebin_part3_ui.png
+   :width: 400
+
+Try typing in a search term and clicking "Search".
+
+Try also accessing the ``/snakebin-api/search?q=:term`` endpoint directly in
+the browser.
