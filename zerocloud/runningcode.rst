@@ -107,7 +107,7 @@ In this example, we'll do just that. Create the following files:
     the_sum = mymath.add(a, b)
     print("%s + %s = %s" % (a, b, the_sum))
 
-``boot/system.map``:
+Create a ``boot`` directory, then ``boot/system.map`` file:
 
 .. code-block:: javascript
 
@@ -166,7 +166,7 @@ times, for example, to run an application to process multiple different files.
 In this example, we will upload a packaged application into Swift and then
 subsequently POST job descriptions to execute the application. This can be done
 multiple times, and with different arguments. We'll use this to build a small
-application
+application. Create a directory ``sampleapp`` and in it, create the following files:
 
 ``main.py``:
 
@@ -197,7 +197,7 @@ Upload the image into Swift:
 
     $ swift upload example example.tar
 
-Now we need a couple of files for the application to read and process.
+Now we need to create a couple of files for the application to read and process.
 
 ``data1.csv``:
 
@@ -273,7 +273,7 @@ example, change this line
 
 .. code-block:: text
 
-    {"name": "input", "path": "swift://~/example/data2.csv"},
+    {"name": "input", "path": "swift://~/example/data1.csv"},
 
 to this:
 
@@ -299,7 +299,13 @@ Your ``job.json`` file should now look like this:
         ]
     }]
 
-Try running that and see the difference in the output.
+Try running that and see the difference in the output:
+
+.. code-block:: bash
+
+    $ curl -i -X POST -H "Content-Type: application/json" \
+      -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" \
+      --data-binary @job.json $OS_STORAGE_URL
 
 Run a ZeroVM application with an object GET
 -------------------------------------------
@@ -307,11 +313,11 @@ Run a ZeroVM application with an object GET
 It is possible to attach applications to particular types of objects and run
 that application when the object is retrieved (using a GET request) from Swift.
 
-In this example, we'll write an application which processes JSON file objects
+In this example, we'll write an application which processes JSON file objects and
 returns a pretty-printed version of the contents. The idea here is that we take
 some raw JSON data and make it more human-readable.
 
-Create the following files.
+Create the following files in a new directory ``sampleapp2``:
 
 ``data.json``:
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snakebin</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/codemirror.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/codemirror.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.6.0/mode/python/python.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            // Add syntax highlighting for Python code:
+            var code = $('#code')[0];
+            var editor = CodeMirror.fromTextArea(code, {
+                mode: "text/x-python",
+                lineNumbers: true
+            });
+
+            // Called when a script posting is successful.
+            var saveSuccess = function(data, textStatus, jqXHR) {
+                var url = jqXHR.responseText;
+                $('#save-status').html(
+                    'Saved to <a id="save-url" href="' + url
+                    + '">' + url + '</a>'
+                );
+            };
+
+            // Attach save functionality to the "Save" button
+            $('#save').click(function() {
+                var request = {
+                    'url': window.location.href,
+                    'type': 'post',
+                    'data': editor.getValue(),
+                    'headers': {
+                        'X-Zerovm-Execute': 'api/1.0'
+                    },
+                    'success': saveSuccess
+                };
+                $.ajax(request);
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <textarea id="code" rows="15" cols="80" wrap="off"
+              autocorrect="off" autocomplete="off"
+              autocapitalize="off" spellcheck="false">{code}</textarea>
+    <p>
+      <input id="save" type="submit" value="Save" />
+      <div id="save-status"></div>
+    </p>
+  </body>
+</html>
