@@ -186,15 +186,12 @@ REST API
 For the time being, we only need to support a few different types of requests:
 
 ``GET /snakebin-api``:
-
     Get an empty HTML form for uploading a script.
 
 ``POST /snakebin-api``:
-
     Post file contents, get a ``/snakebin-api/:script`` URL back.
 
 ``GET /snakebin-api/:script``:
-
     Retrieve uploaded file contents.
 
     If a request specifies the header ``Accept: text/html``, load the HTML UI
@@ -304,8 +301,8 @@ handle saving and retrieval of uploaded documents. Let's create those now.
 User Interface
 ..............
 
-To complete the first evolution of the Snakebin application, let's a user
-interface. Create a file called ``index.html`` and add the following code
+To complete the first evolution of the Snakebin application, let's create a
+user interface. Create a file called ``index.html`` and add the following code
 to it:
 
 .. literalinclude:: index_part1.html
@@ -327,7 +324,7 @@ Deploy:
 
     $ zpm deploy snakebin-app snakebin.zapp
     app deployed to http://127.0.0.1:8080/v1/AUTH_123def/snakebin-app/index.html
-    
+
 Setting environment variable for the storage token with this value will make commands
 more concise and convenient to execute:
 
@@ -411,13 +408,11 @@ To support script execution via HTTP (either from the command line or browser),
 we will need to add a couple more endpoints to our API:
 
 ``GET /snakebin-api/:script/execute``:
-
     Execute the specified ``:script`` and return the output as text.
     The script must already exist and be available at
     ``/snakebin-api/:script``.
 
 ``POST /snakebin-api/execute``:
-
     Execute the contents of the request as a Python script and return the
     output as text.
 
@@ -546,7 +541,6 @@ API updates
 The final endpoint we'll add to our API is ``search``:
 
 ``GET /snakebin-api/search?q=:term``:
-
     Return a JSON list of URLs to the documents (in ``snakebin-store``)
     which contain ``:term``. When this endpoint is hit, a MapReduce job of
     multiple nodes will be spawned to perform the search.
