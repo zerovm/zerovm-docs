@@ -327,15 +327,22 @@ Deploy:
 
     $ zpm deploy snakebin-app snakebin.zapp
     app deployed to http://127.0.0.1:8080/v1/AUTH_123def/snakebin-app/index.html
+    
+Setting environment variable for the storage token with this value will make commands
+more concise and convenient to execute:
+
+.. code-block:: bash
+
+    $ export $OS_STORAGE_TOKEN=AUTH_123def...
 
 Configure the endpoint handler zapp for ``snakebin-api``, ``snakebin-app``, and
 ``snakebin-store``:
 
 .. code-block:: bash
 
-    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://AUTH_123def/snakebin-app/snakebin.zapp" snakebin-api
-    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://AUTH_123def/snakebin-app/snakebin.zapp" snakebin-app
-    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://AUTH_123def/snakebin-app/snakebin.zapp" snakebin-store
+    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://$OS_STORAGE_TOKEN/snakebin-app/snakebin.zapp" snakebin-api
+    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://$OS_STORAGE_TOKEN/snakebin-app/snakebin.zapp" snakebin-app
+    $ swift post --header "X-Container-Meta-Rest-Endpoint: swift://$OS_STORAGE_TOKEN/snakebin-app/snakebin.zapp" snakebin-store
 
 We'll also need to set execution permissions for unauthenticated (anonymous)
 users on the same three containers:
@@ -365,13 +372,13 @@ Now upload it:
 .. code-block:: bash
 
     $ curl -X POST -H "X-Zerovm-Execute: api/1.0" $OS_STORAGE_URL/snakebin-api --data-binary @example.py
-    http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb
+    http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb
 
 The URL returned from the ``POST`` can be used to retrieve the document:
 
 .. code-block:: bash
 
-    $ curl http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb
+    $ curl http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb
     print "hello world!"
 
 .. note:: Note that in the ``POST`` we have to supply the
@@ -382,7 +389,7 @@ The URL returned from the ``POST`` can be used to retrieve the document:
     browser.
 
 We can also try this through the web interface. Open a web browser and go to
-``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``. You should get a page
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``. You should get a page
 that looks something like this:
 
 .. image:: snakebin_part1_ui.png
@@ -390,7 +397,7 @@ that looks something like this:
 
 Type some text into the box and play around with saving documents. You can also
 trying to browse the the document we created above on the command line
-(``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb``).
+(``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb``).
 
 .. _snakebin_part2:
 
@@ -503,7 +510,7 @@ done simply by ``curl``ing the URL of the script and appending ``/execute``:
 
 .. code-block:: bash
 
-    $ curl http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb/execute
+    $ curl http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb/execute
     hello world!
 
 Next, let's trying posting the ``example.py`` script directly to the
@@ -511,11 +518,11 @@ Next, let's trying posting the ``example.py`` script directly to the
 
 .. code-block:: bash
 
-    $ curl -X POST http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/execute
+    $ curl -X POST http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/execute
     hello world!
 
 Let's also test the functionality in the web browser. If you nagivate to
-``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
 look something like this:
 
 .. image:: snakebin_part2_ui.png
@@ -526,7 +533,7 @@ Try writing some code into the text box and click ``Run`` to execute them.
 Try also accessing the ``/snakebin-api/:script/execute`` endpoint directly
 in the browser using the same the URL in the POST example above:
 
-``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/GDHh7vR3Zb/execute``
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb/execute``
 
 .. _snakebin_part3:
 
@@ -605,14 +612,14 @@ anything, obviously.)
 
 .. code-block:: bash
 
-    $ curl http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/search?q=foo
-    ["http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/IOFW0Z8UYR", "http://127.0.0.1:8080/api/AUTH_123def/snakebin-api/e2X0hNA9ld"]
+    $ curl http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/search?q=foo
+    ["http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/IOFW0Z8UYR", "http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/e2X0hNA9ld"]
 
 Let's also test the functionality in the web browser. If you navigate to
-``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
 look something like this:
 
-``http://127.0.0.1:8080/api/AUTH_123def/snakebin-api``, the new page should
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
 look something like this:
 
 .. image:: snakebin_part3_ui.png

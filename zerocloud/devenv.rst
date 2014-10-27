@@ -91,9 +91,8 @@ Install and configure command line clients
 ------------------------------------------
 
 To interact with and test your ZeroCloud deployment, you'll need to install a
-handful of tools. You can install all of these tools from PyPI using ``pip``. 
-
-From within your vagrant VM execute the following:
+handful of tools. You can install all of these tools from PyPI using ``pip`` on
+your Vagrant/Virtual Box VM.
 
 .. code-block:: bash
 
