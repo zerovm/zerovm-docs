@@ -17,16 +17,16 @@ def http_resp(code, reason, content_type='message/http', msg='',
     if extra_headers is None:
         extra_header_text = ''
     else:
-        extra_header_text = '\n'.join(
+        extra_header_text = '\r\n'.join(
             ['%s: %s' % (k, v) for k, v in extra_headers.items()]
         )
-        extra_header_text += '\n'
+        extra_header_text += '\r\n'
 
     resp = """\
-HTTP/1.1 %(code)s %(reason)s
-%(extra_headers)sContent-Type: %(content_type)s
-Content-Length: %(msg_len)s
-
+HTTP/1.1 %(code)s %(reason)s\r
+%(extra_headers)sContent-Type: %(content_type)s\r
+Content-Length: %(msg_len)s\r
+\r
 %(msg)s"""
     resp %= dict(code=code, reason=reason, content_type=content_type,
                  msg_len=len(msg), msg=msg, extra_headers=extra_header_text)
