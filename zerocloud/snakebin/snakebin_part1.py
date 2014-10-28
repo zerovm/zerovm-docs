@@ -54,7 +54,10 @@ class Job(object):
         self.env[key] = value
 
     def to_json(self):
-        return json.dumps([{
+        return json.dumps([self.to_dict()])
+
+    def to_dict(self):
+        return {
             'name': self.name,
             'exec': {
                 'path': 'file://python2.7:python',
@@ -62,7 +65,7 @@ class Job(object):
                 'env': self.env,
             },
             'devices': self.devices,
-        }])
+        }
 
 
 def _object_exists(name):

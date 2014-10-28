@@ -22,7 +22,7 @@ Overview
 - :ref:`Part 2: Execute Scripts <snakebin_part2>`
 - :ref:`Part 3: Search Scripts <snakebin_part3>`
 
-We will build the application in 3 parts. In the
+We will build the application in three parts. In the
 :ref:`first part <snakebin_part1>`, we will implement a REST API for uploading
 and downloading Python scripts to/from ZeroCloud. We will also implment a basic
 UI to interact with the REST interface in HTML and JavaScript.
@@ -59,7 +59,7 @@ Swift Container Setup
 
 To deploy and run the application, we'll need three containers:
 
-* ``snakebin``: This will serve as the base URL for REST API requests. This
+* ``snakebin-api``: This will serve as the base URL for REST API requests. This
   container will only contain the HTML / JavaScript UI files.
 * ``snakebin-app``: This will contain all of the application files, except for
   the UI files.
@@ -90,8 +90,7 @@ Add ``zapp.yaml``
 -----------------
 
 The next thing we need to do is add the basic configuration file which defines
-a ZeroVM application (or "zapp"). We also want to include a basic
-HTML/JavaScript UI template. ``zpm`` can do this for us:
+a ZeroVM application (or "zapp"). ``zpm`` can do this for us:
 
 .. code-block:: bash
 
@@ -194,15 +193,16 @@ For the time being, we only need to support a few different types of requests:
 ``GET /snakebin-api/:script``:
     Retrieve uploaded file contents.
 
-    If a request specifies the header ``Accept: text/html``, load the HTML UI
-    page with the script textarea populated. For any other ``Accept`` value,
-    just return the raw script contents.
+    If a request specifies the header ``Accept: text/html`` (as is the case
+    with a web browser), load the HTML UI page with the script textarea
+    populated. For any other ``Accept`` value, just return the raw script
+    contents.
 
 
 The Code
 ++++++++
 
-ZeroCloud provides a CGI-like environment for servicing HTTP requests. A lot of
+ZeroCloud provides a CGI-like environment for handling HTTP requests. A lot of
 what follows involves setting and reading environment variables and generating
 HTTP responses from scratch.
 
@@ -216,8 +216,15 @@ let's first define utility function for creating these responses. In your
 the following code to it:
 
 .. literalinclude:: snakebin_part1.py
-   :lines: 9,11-31
-   :emphasize-lines: 22
+   :pyobject: http_resp
+   :emphasize-lines: 19
+
+For this we'll need to import ``sys`` from the standard library. Add an
+``import`` statement to the top of the file:
+
+.. code-block:: python
+
+    import sys
 
 Notice the last line, which is highlighted: ``sys.stdout.write(resp)``.
 
@@ -251,8 +258,9 @@ hard-coded.
 This class makes use of the ``json`` module, so lets add an import statement
 to the top of the file:
 
-.. literalinclude:: snakebin_part1.py
-   :lines: 4
+.. code-block:: python
+
+    import json
 
 
 GET and POST handling
@@ -270,13 +278,20 @@ We'll need to add 4 new blocks of code:
 - a "main" block to start the program and call the right handler function
 
 .. literalinclude:: snakebin_part1.py
-   :lines: 68-
+   :lines: 69-
 
 This codes makes use of more standard library modules, so we need to add import
 statements for those:
 
-.. literalinclude:: snakebin_part1.py
-   :lines: 1-3,5-8,10
+.. code-block:: python
+
+    import base64
+    import hashlib
+    import os
+    import random
+    import sqlite3
+    import string
+    import urlparse
 
 Your ``snakebin.py`` file should now look something like this:
 
@@ -325,12 +340,12 @@ Deploy:
     $ zpm deploy snakebin-app snakebin.zapp
     app deployed to http://127.0.0.1:8080/v1/AUTH_123def/snakebin-app/index.html
 
-Setting environment variable for the storage token with this value will make commands
-more concise and convenient to execute:
+Setting environment variable for the storage token with this value will make
+commands more concise and convenient to execute:
 
 .. code-block:: bash
 
-    $ export $OS_STORAGE_TOKEN=AUTH_123def...
+    $ export OS_STORAGE_TOKEN=AUTH_123def...
 
 Configure the endpoint handler zapp for ``snakebin-api``, ``snakebin-app``, and
 ``snakebin-store``:
@@ -386,20 +401,23 @@ The URL returned from the ``POST`` can be used to retrieve the document:
     browser.
 
 We can also try this through the web interface. Open a web browser and go to
-``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``. You should get a page
-that looks something like this:
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``. You should get a
+page that looks something like this:
 
 .. image:: snakebin_part1_ui.png
    :width: 400
 
 Type some text into the box and play around with saving documents. You can also
-trying to browse the the document we created above on the command line
+try to browse the the document we created above on the command line
 (``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/GDHh7vR3Zb``).
 
 .. _snakebin_part2:
 
 Part 2: Execute Scripts
 -----------------------
+
+In this part, we'll add on to what we've built so far and allow Python scripts
+to be executed by Snakebin.
 
 API updates
 +++++++++++
@@ -471,14 +489,14 @@ of a script. We need to read the ``SNAKEBIN_EXECUTE`` environment variable
 and execute a script if it is present. Update ``get_file.py`` to this:
 
 .. literalinclude:: get_file_part2.py
-   :emphasize-lines: 11,14-25,28-31
+   :emphasize-lines: 12,15-25,29-32
 
 We now need to update the UI with a "Run" button to hook in the execution
 functionality. Update your ``index.html`` to look like this:
 
 .. literalinclude:: index_part2.html
    :language: html
-   :emphasize-lines: 42-68,77,80-87
+   :emphasize-lines: 42-68,77,80-85
 
 
 Redeploy the application
@@ -517,8 +535,8 @@ Next, let's trying posting the ``example.py`` script directly to the
     hello world!
 
 Let's also test the functionality in the web browser. If you nagivate to
-``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
-look something like this:
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page
+should look something like this:
 
 .. image:: snakebin_part2_ui.png
    :width: 400
@@ -534,6 +552,10 @@ in the browser using the same the URL in the POST example above:
 
 Part 3: Search Scripts
 ----------------------
+
+The final piece of Snakebing is a simple search search, which will retrieve
+document whose contents contain a given search term. All documents in
+``snakebin-store`` will be search in a parallelized fashion.
 
 API updates
 +++++++++++
@@ -601,7 +623,7 @@ Test
 ++++
 
 First, let's try executing the search on the command line. (You should post
-a couple of a scripts to Snakebin first, other your search won't return
+a couple of a scripts to Snakebin first, otherwise your search won't return
 anything, obviously.)
 
 .. code-block:: bash
@@ -610,11 +632,11 @@ anything, obviously.)
     ["http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/IOFW0Z8UYR", "http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/e2X0hNA9ld"]
 
 Let's also test the functionality in the web browser. If you navigate to
-``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
-look something like this:
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page
+should look something like this:
 
-``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page should
-look something like this:
+``http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api``, the new page
+should look something like this:
 
 .. image:: snakebin_part3_ui.png
    :width: 400
