@@ -168,7 +168,6 @@ def get():
 
             mapper_job = Job('search-mapper', 'search_mapper.py')
             mapper_job.add_device('input', path='swift://~/snakebin-store/*')
-            mapper_job.add_device('stderr', path='swift://~/logs/search-*.log')
             mapper_job.set_envvar('SNAKEBIN_SEARCH',
                                   urllib.unquote(params.get('q')))
             mapper_job.set_envvar('HTTP_ACCEPT',
