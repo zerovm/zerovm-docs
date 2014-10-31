@@ -48,7 +48,7 @@ limits:
   simply a file system path, e.g., ``/home/me/foo.txt``.
 
   TCP socket definitions have the following format: ``tcp:<host>:<port>``,
-  where ``<host>>`` is an IP address or hostname and ``<port>`` is the TCP
+  where ``<host>`` is an IP address or hostname and ``<port>`` is the TCP
   port.
 * ``alias``: A file alias inside ZeroVM which maps to the device specified
   on the host by ``uri``. Regardless of the host type of the device,
