@@ -164,6 +164,7 @@ below):
 The final result should look like this:
 
 .. literalinclude:: zapp.yaml
+   :language: yaml
 
 
 .. _snakebin_part1:
