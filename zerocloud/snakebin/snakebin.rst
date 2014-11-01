@@ -531,7 +531,7 @@ Next, let's trying posting the ``example.py`` script directly to the
 
 .. code-block:: bash
 
-    $ curl -X POST http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/execute
+    $ curl -X POST http://127.0.0.1:8080/api/$OS_STORAGE_TOKEN/snakebin-api/execute --data-binary @example.py
     hello world!
 
 Let's also test the functionality in the web browser. If you nagivate to
