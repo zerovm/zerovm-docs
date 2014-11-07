@@ -5,7 +5,7 @@ Running code on ZeroCloud
 
 These examples below include executing code using just plain old ``curl``
 commands on the command line, as well as scripting using Python and the
-``requests`` (link?) module.
+`requests <http://docs.python-requests.org/en/latest/>`_ module.
 
 Getting an auth token
 ---------------------
