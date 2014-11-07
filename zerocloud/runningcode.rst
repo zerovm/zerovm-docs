@@ -7,8 +7,19 @@ These examples below include executing code using just plain old ``curl``
 commands on the command line, as well as scripting using Python and the
 `requests <http://docs.python-requests.org/en/latest/>`_ module.
 
-Getting an auth token
----------------------
+Jump to a section:
+
+- :ref:`Setup: Getting an auth token <runningcode-setup>`
+- :ref:`POST a Python script <runningcode-postpyscript>`
+- :ref:`POST a ZeroVM image <runningcode-postzerovmimage>`
+- :ref:`POST a job description to a ZeroVM application <runningcode-postjobdesc>`
+- :ref:`Run a ZeroVM application with an object GET <runningcode-objectget>`
+
+
+.. _runningcode-setup:
+
+Setup: Getting an auth token
+----------------------------
 
 The first thing you need to do is get an auth token and find the storage URL
 for your account in Swift. For convenience, you can get this information simply
@@ -27,6 +38,8 @@ more concise and convenient to execute:
 
     $ export OS_AUTH_TOKEN=PKIZ_Zrz_Qa5NJm44FWeF7Wp...
     $ export OS_STORAGE_URL=http://127.0.0.1:8080/v1/AUTH_7fbcd8784f8843a180cf187bbb12e49c
+
+.. _runningcode-postpyscript:
 
 POST a Python script
 --------------------
@@ -73,6 +86,8 @@ Using a Python script:
 
 You can write and execute any Python code in this way, using any of the modules
 in the standard library.
+
+.. _runningcode-postzerovmimage:
 
 POST a ZeroVM image
 -------------------
@@ -156,6 +171,8 @@ Using a Python script:
                                  data=fp.read(),
                                  headers=headers)
         print(response.content)
+
+.. _runningcode-postjobdesc:
 
 POST a job description to a ZeroVM application
 ----------------------------------------------
@@ -306,6 +323,8 @@ Try running that and see the difference in the output:
     $ curl -i -X POST -H "Content-Type: application/json" \
       -H "X-Auth-Token: $OS_AUTH_TOKEN" -H "X-Zerovm-Execute: 1.0" \
       --data-binary @job.json $OS_STORAGE_URL
+
+.. _runningcode-objectget:
 
 Run a ZeroVM application with an object GET
 -------------------------------------------
