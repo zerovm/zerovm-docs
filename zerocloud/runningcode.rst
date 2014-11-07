@@ -14,6 +14,7 @@ Jump to a section:
 - :ref:`POST a ZeroVM image <runningcode-postzerovmimage>`
 - :ref:`POST a job description to a ZeroVM application <runningcode-postjobdesc>`
 - :ref:`Run a ZeroVM application with an object GET <runningcode-objectget>`
+- :ref:`MapReduce application <runningcode-mapreduce>`
 
 
 .. _runningcode-setup:
@@ -423,3 +424,170 @@ Using a Python script:
     response = requests.get(storage_url + '/example/data.json',
                             headers=headers)
     print(response.content)
+
+.. _runningcode-mapreduce:
+
+MapReduce application
+---------------------
+
+This example is a parallel wordcount application, constructed to utilize the
+MapReduce features of ZeroCloud.
+
+Create the project directory
+++++++++++++++++++++++++++++
+
+Create a directory for the project files. For example:
+
+.. code-block:: bash
+
+    $ mkdir ~/mapreduce
+
+Then change into that directory:
+
+.. code-block:: bash
+
+    $ cd ~/mapreduce
+
+Create Swift containers
++++++++++++++++++++++++
+
+We need to create two containers in Swift: one to hold our application data,
+and one to hold the application itself.
+
+.. code-block:: bash
+
+    $ swift post mapreduce-data
+    $ swift post mapreduce-app
+
+Upload sample data
+++++++++++++++++++
+
+Create a couple of text files and upload them into the ``mapreduce-data``
+container. You can use the samples below, or any text you like.
+
+``mrdata1.txt``:
+
+.. literalinclude:: mrdata1.txt
+
+``mrdata2.txt``:
+
+.. literalinclude:: mrdata2.txt
+
+``mrdata3.txt``:
+
+.. literalinclude:: mrdata3.txt
+
+Upload the files:
+
+.. code-block:: bash
+
+    $ swift upload mapreduce-data mrdata1.txt
+    $ swift upload mapreduce-data mrdata2.txt
+    $ swift upload mapreduce-data mrdata3.txt
+
+Add ``zapp.yaml``
++++++++++++++++++
+
+Add a ZeroVM application configuration template:
+
+.. code-block:: bash
+
+    $ zpm new
+
+This will create a ``zapp.yaml`` file in the current directory.  Open
+``zapp.yaml`` in your favorite text editor.
+
+First, give the application a name, by changing the
+
+Change the ``execution`` section
+
+.. code-block:: yaml
+
+    execution:
+      groups:
+        - name: ""
+          path: file://python2.7:python
+          args: ""
+          devices:
+          - name: python2.7
+          - name: stdout
+
+to look like this:
+
+.. code-block:: yaml
+   :emphasize-lines: 11
+
+    execution:
+      groups:
+        - name: "map"
+          path: file://python2.7:python
+          args: "mapper.py"
+          devices:
+          - name: python2.7
+          - name: stdout
+          - name: input
+            path: "swift://~/mapreduce-data/*.txt"
+          connect: ["reduce"]
+        - name: "reduce"
+          path: file://python2.7:python
+          args: "reducer.py"
+          devices:
+          - name: python2.7
+          - name: stdout
+
+.. note::
+    The ``connect`` directive enables communication from the first execution group
+    to the second. The creates a data pipeline where the results from the ``map``
+    execution, run on each text file in the ``mapreduce-data`` container, can be
+    piped to the ``reduce`` part and combined into a single result.
+
+We also need to update the ``bundling`` section
+
+.. code-block:: yaml
+
+    bundling: []
+
+to include two Python source code files (which we will create below):
+
+.. code-block:: yaml
+
+    bundling: ["mapper.py", "reducer.py"]
+
+The code
+++++++++
+
+Now let's write the code that will do our MapReduce wordcount.
+
+``mapper.py``:
+
+.. literalinclude:: mrmapper.py
+
+``reducer.py``:
+
+.. literalinclude:: mrreducer.py
+
+Bundle, deploy, and execute
++++++++++++++++++++++++++++
+
+Bundle:
+
+.. code-block:: bash
+
+    $ zpm bundle
+    created mapreduce.zapp
+
+Deploy:
+
+.. code-block:: bash
+
+    $ zpm deploy mapreduce-app mapreduce.zapp
+
+Execute:
+
+.. code-block:: bash
+
+    $ zpm execute mapreduce.zapp --container mapreduce-app
+     104 mapreduce-data/mrdata1.txt
+     101 mapreduce-data/mrdata2.txt
+      69 mapreduce-data/mrdata3.txt
+     274 total
