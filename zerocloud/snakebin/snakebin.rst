@@ -341,8 +341,8 @@ Deploy:
     $ zpm deploy snakebin-app snakebin.zapp
     app deployed to http://127.0.0.1:8080/v1/AUTH_123def/snakebin-app/
 
-Setting environment variable for the storage token with this value will make
-commands more concise and convenient to execute:
+Setting an environment variable for the storage account ID will make commands
+more concise and convenient to execute:
 
 .. code-block:: bash
 
