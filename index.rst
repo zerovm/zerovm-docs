@@ -60,6 +60,7 @@ ZeroCloud: Cloud storage & compute platform
    zerocloud/devenv
    zerocloud/runningcode
    zerocloud/jobchaining
+   zerocloud/logging
    zerocloud/snakebin/snakebin
 
 
