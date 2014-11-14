@@ -1,7 +1,7 @@
 .. _devenv:
 
 Setting up a development environment
-==============================================
+====================================
 
 The easiest way to get up and running is to install and run ZeroCloud on
 `DevStack <http://devstack.org/>`_ inside VirtualBox. We provide some
