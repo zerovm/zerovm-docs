@@ -53,12 +53,12 @@ ZeroCloud: Cloud storage & compute platform
 -------------------------------------------
 
 .. toctree::
-   :maxdepth: 2
    :numbered:
 
    zerocloud/overview
    zerocloud/devenv
    zerocloud/runningcode
+   zerocloud/pythonapps
    zerocloud/jobchaining
    zerocloud/logging
    zerocloud/snakebin/snakebin

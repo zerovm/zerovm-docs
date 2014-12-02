@@ -13,27 +13,23 @@ execution:
 
       # Name of this group. This is used if you need to connect groups
       # with each other.
-    - name: "snakebin"
+    - name: ""
 
       # The NaCl executable (nexe) to run on the nodes in this group.
       path: file://python2.7:python
 
       # Command line arguments for the nexe.
-      args: "snakebin.py"
+      args: ""
 
       # Input and output devices for this group.
       devices:
       - name: python2.7
-      - name: stdin
       - name: stdout
-        content_type: message/http
-      - name: input
-        path: swift://~/snakebin-store
 
 # Meta-information about your zapp.
 meta:
   Version: ""
-  name: "snakebin"
+  name: "myapp"
   Author-email: ""
   Summary: ""
 
@@ -48,4 +44,4 @@ help:
 
 # Files to include in your zapp. Your can use glob patterns here, they
 # will be resolved relative to the location of this file.
-bundling: ["snakebin.py", "save_file.py", "get_file.py", "index.html"]
+bundling: []
