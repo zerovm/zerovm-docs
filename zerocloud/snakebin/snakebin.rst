@@ -94,7 +94,7 @@ a ZeroVM application (or "zapp"). ``zpm`` can do this for us:
 
 .. code-block:: bash
 
-    $ zpm new
+    $ zpm new --template python
 
 This will create a ``zapp.yaml`` file in the current directory.
 
