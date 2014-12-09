@@ -178,7 +178,7 @@ cached Python packages. To do this, you can simply run:
 
     $ zpm bundle --refresh-deps
 
-This will clear the cache, re-fetch all dependencies per the ``depends``
+This will clear the cache, re-fetch all dependencies per the ``dependencies``
 directive in the ``zapp.yaml``, and bundle your zapp as usual.
 
 .. tip::
