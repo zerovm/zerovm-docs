@@ -20,7 +20,8 @@ if __name__ == '__main__':
         else:
             with open('/index.html') as fp:
                 html_page_template = fp.read()
-                html_page = html_page_template.replace('{code}', escape(contents))
+                html_page = html_page_template.replace('{code}',
+                                                       escape(contents))
             snakebin.http_resp(200, 'OK',
                                content_type='text/html; charset=utf-8',
                                msg=html_page)
@@ -30,4 +31,3 @@ if __name__ == '__main__':
         if execute is not None:
             output = snakebin.execute_code(contents)
         snakebin.http_resp(200, 'OK', content_type='text/plain', msg=output)
-

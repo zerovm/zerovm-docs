@@ -7,6 +7,9 @@ import sqlite3
 import string
 import sys
 import urlparse
+import wsgiref.handlers
+
+import falcon
 
 
 def http_resp(code, reason, content_type='message/http', msg='',
@@ -93,11 +96,27 @@ def random_short_name(seed, length=10):
     return name
 
 
-def post():
-    with open('/dev/stdin') as fp:
-        file_data = fp.read()
+def _handle_script(req, resp, account, container, script):
+    # Go get the requested script, or 404 if it doesn't exist.
+    if _object_exists(script):
+        private_file_path = 'swift://~/snakebin-store/%s' % script
 
-    request_path = os.environ.get('PATH_INFO')
+        job = Job('snakebin-get-file', 'get_file.py')
+        job.add_device('input', path=private_file_path)
+        job.set_envvar('HTTP_ACCEPT', os.environ.get('HTTP_ACCEPT'))
+        # Setting this header and content_type will make ZeroCloud
+        # intercept the request and spawn a new job, instead of responding
+        # directly to the client.
+        resp.set_header('X-Zerovm-Execute', '1.0')
+        resp.content_type = 'application/json'
+        resp.status = falcon.HTTP_200
+        resp.body = job.to_json()
+    else:
+        resp.status = falcon.HTTP_404
+
+
+def _handle_script_upload(req, resp, account, container, script=None):
+    file_data = req.stream.read()
     file_hash = hashlib.sha1(file_data)
     short_name = random_short_name(file_hash.hexdigest())
 
@@ -106,72 +125,73 @@ def post():
 
     if _object_exists(short_name):
         # This means the file already exists. No problem!
-        # Since the short url is derived from the hash of the contents, just
-        # return a URL to the file.
-        _, acct, container, _rest = (
-            request_path + '/').split('/', 4)
-        path = '/api/%s/%s/' % (acct, container)
+        # Since the short url is derived from the hash of the contents,
+        # just return a URL to the file.
+        path = '/api/%s/%s/%s' % (account, container, short_name)
 
         file_url = urlparse.urlunparse((
             'http',
             os.environ.get('HTTP_HOST'),
-            (path + short_name),
+            path,
             None,
             None,
             None
         )) + '\n'
-        http_resp(200, 'OK', msg=file_url)
+        resp.status = falcon.HTTP_200
+        resp.body = file_url
     else:
+        # Go and save the file.
+        # We need to spawn another ZeroVM job to write this file.
         job = Job('snakebin-save-file', 'save_file.py')
-        job.set_envvar('SNAKEBIN_POST_CONTENTS', base64.b64encode(file_data))
+        job.set_envvar('SNAKEBIN_POST_CONTENTS',
+                       base64.b64encode(file_data))
         job.set_envvar('SNAKEBIN_PUBLIC_FILE_PATH', public_file_path)
         job.add_device('output', path=snakebin_file_path,
                        content_type='text/plain')
-        http_resp(200, 'OK', content_type='application/json',
-                  msg=job.to_json(), extra_headers={'X-Zerovm-Execute': '1.0'})
+        # Setting this header and content_type will make ZeroCloud
+        # intercept the request and spawn a new job, instead of responding
+        # directly to the client.
+        resp.set_header('X-Zerovm-Execute', '1.0')
+        resp.content_type = 'application/json'
+        resp.status = falcon.HTTP_200
+        resp.body = job.to_json()
 
 
-def get():
-    path_info = os.environ.get('PATH_INFO')
-    path_parts = path_info.split('/')
+class RootHandler(object):
 
-    file_name = None
-    if len(path_parts) >= 4:
-        _, _account, container, file_name = path_parts
-    elif len(path_parts) == 3:
-        _, _account, container = path_parts
+    def on_get(self, req, resp, account, container):
+        """Serve a blank index.html page."""
+        with open('index.html') as fp:
+            resp.body = fp.read()
+        resp.content_type = 'text/html; charset=utf-8'
+        resp.status = falcon.HTTP_200
 
-    if container == 'snakebin-api':
-        if not file_name:
-            # Get empty form page:
-            with open('index.html') as fp:
-                index_page = fp.read()
-            http_resp(200, 'OK', content_type='text/html; charset=utf-8',
-                      msg=index_page)
-        elif _object_exists(file_name):
-            # The client has requested a real document.
-            # Spawn a job to go and retrieve it:
-            private_file_path = 'swift://~/snakebin-store/%s' % file_name
+    def on_post(self, req, resp, account, container):
+        """Handle the form post/script upload."""
+        _handle_script_upload(req, resp, account, container)
 
-            job = Job('snakebin-get-file', 'get_file.py')
-            job.add_device('input', path=private_file_path)
-            job.set_envvar('HTTP_ACCEPT', os.environ.get('HTTP_ACCEPT'))
 
-            http_resp(200, 'OK', content_type='application/json',
-                      msg=job.to_json(),
-                      extra_headers={'X-Zerovm-Execute': '1.0'})
-        else:
-            http_resp(404, 'Not Found')
-    else:
-        http_resp(404, 'Not Found')
+class ScriptHandler(object):
+
+    def on_get(self, req, resp, account, container, script):
+        _handle_script(req, resp, account, container, script)
+
+    def on_post(self, req, resp, account, container, script):
+        # Also allow new/modified scripts to be uploaded when the client is on
+        # a page like `/snakebin-api/Wg4re8mXbV`.
+        _handle_script_upload(req, resp, account, container, script=script)
 
 
 if __name__ == '__main__':
-    request_method = os.environ.get('REQUEST_METHOD')
+    app = falcon.API()
+    app.add_route('/{account}/{container}', RootHandler())
+    app.add_route('/{account}/{container}/{script}', ScriptHandler())
 
-    if request_method == 'POST':
-        post()
-    elif request_method == 'GET':
-        get()
-    else:
-        http_resp(405, 'Method Not Allowed')
+    handler = wsgiref.handlers.SimpleHandler(
+        sys.stdin,
+        sys.stdout,
+        sys.stderr,
+        environ=dict(os.environ),
+        multithread=False,
+    )
+    handler.run(app)
