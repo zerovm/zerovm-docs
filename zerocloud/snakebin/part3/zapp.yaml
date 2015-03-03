@@ -1,0 +1,33 @@
+project_type: python
+
+execution:
+  groups:
+    - name: "snakebin"
+      path: file://python2.7:python
+      args: "snakebin.py"
+      devices:
+      - name: python2.7
+      - name: stdin
+      - name: stdout
+        content_type: message/http
+      - name: input
+        path: swift://~/snakebin-store
+
+meta:
+  Version: ""
+  name: "snakebin"
+  Author-email: ""
+  Summary: ""
+
+help:
+  description: ""
+  args: []
+
+bundling: ["snakebin.py", "save_file.py", "get_file.py", "index.html",
+           "search_mapper.py", "search_reducer.py"]
+
+dependencies: [
+    "falcon",
+    "six",
+    "mimeparse",
+]

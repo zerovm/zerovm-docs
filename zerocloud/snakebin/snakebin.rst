@@ -18,6 +18,8 @@ for the REST API will be implemented in Python.
 Overview
 --------
 
+Jump to a section:
+
 - :ref:`Part 1: Upload/Download Scripts <snakebin_part1>`
 - :ref:`Part 2: Execute Scripts <snakebin_part2>`
 - :ref:`Part 3: Search Scripts <snakebin_part3>`
@@ -27,14 +29,15 @@ We will build the application in three parts. In the
 and downloading Python scripts to/from ZeroCloud. We will also implment a basic
 UI to interact with the REST interface in HTML and JavaScript.
 
-In the :ref:`second part <snakebin_part2>`, we will add a "Run" button to the
-UI to remotely execute scripts on ZeroCloud. The secure isolation of ZeroVM
-will ensure that any arbitrary code can run safely.
+In the :ref:`second part <snakebin_part2>`, we will add execution
+functionality to the API, as well as a "Run" button to the UI to execute code.
+The secure isolation of ZeroVM will ensure that any arbitrary code can run
+safely.
 
 In the :ref:`third and final part <snakebin_part3>`, we will implement a
 parallelized MapReduce-style search function for searching all existing
-documents in Snakebin. The search function will be driven by a REST endpoint
-and will include a "Search" field in the UI.
+documents in Snakebin. The search function will be driven by yet another
+addition to the API and will include a "Search" field in the UI.
 
 
 Setup
@@ -96,11 +99,8 @@ a ZeroVM application (or "zapp"). ``zpm`` can do this for us:
 
     $ zpm new --template python
 
-This will create a ``zapp.yaml`` file in the current directory.
-
-Open ``zapp.yaml`` in your favorite text editor.
-
-Change the ``execution`` section
+This will create a ``zapp.yaml`` file in the current directory. Open
+``zapp.yaml`` in your favorite text editor. Change the ``execution`` section
 
 .. code-block:: yaml
 
@@ -115,37 +115,10 @@ Change the ``execution`` section
 
 to look like this:
 
-.. code-block:: yaml
-
-    execution:
-      groups:
-        - name: ""
-          path: file://python2.7:python
-          args: ""
-          devices:
-          - name: python2.7
-          - name: stdout
-            content_type: message/http
-          - name: stdin
-          - name: input
-            path: swift://~/snakebin-store
-
-Change the ``help`` section
-
-.. code-block:: yaml
-
-    help:
-      description: ""
-      args:
-      - ["", ""]
-
-to look like this:
-
-.. code-block:: yaml
-
-    help:
-      description: ""
-      args: []
+.. literalinclude:: part1/zapp.yaml
+    :language: yaml
+    :lines: 3-14
+    :emphasize-lines: 3,5,9-12
 
 Edit the ``bundling`` section
 
@@ -153,17 +126,23 @@ Edit the ``bundling`` section
 
     bundling: []
 
-
 to include the source files for our application (which we will be creating
 below):
 
-.. code-block:: yaml
+.. literalinclude:: part1/zapp.yaml
+    :language: yaml
+    :lines: 26
 
-    bundling: ["snakebin.py", "save_file.py", "get_file.py", "index.html"]
+Finally, we need to specify third-party dependencies so that ``zpm`` knows how
+to bundle our application:
+
+.. literalinclude:: part1/zapp.yaml
+    :language: yaml
+    :lines: 28-32
 
 The final result should look like this:
 
-.. literalinclude:: zapp.yaml
+.. literalinclude:: part1/zapp.yaml
    :language: yaml
 
 
@@ -175,8 +154,7 @@ Part 1: Upload/Download Scripts
 First, we need to build an application for uploading and retrieving scripts,
 complete with a basic HTML user interface.
 
-Before we dig into the application code, we need to design our API.
-
+Before we dig into the application code, let's think about our API design.
 
 .. _snakebin_ul_dl_api:
 
@@ -216,16 +194,10 @@ let's first define utility function for creating these responses. In your
 ``snakebin`` working directory, create a file called ``snakebin.py``. Then add
 the following code to it:
 
-.. literalinclude:: snakebin_part1.py
+.. literalinclude:: part1/snakebin.py
    :pyobject: http_resp
    :emphasize-lines: 19
 
-For this we'll need to import ``sys`` from the standard library. Add an
-``import`` statement to the top of the file:
-
-.. code-block:: python
-
-    import sys
 
 Notice the last line, which is highlighted: ``sys.stdout.write(resp)``.
 
@@ -234,8 +206,16 @@ an application through ``/dev/stdout``, by convention. To your application code
 (which is running inside the ZeroVM virtual execution environment),
 ``/dev/stdout`` looks just like the character device you would expect in a
 Linux-like execution environment, but to ZeroCloud, you can write to this
-device to communicate to a client or start a new "`job`", all using HTTP. (In
-this tutorial, we'll be doing both.)
+device to either communicate to a client or start a new "`job`", all using HTTP.
+(In this tutorial, we'll be doing both.)
+
+For ``http_resp``, we'll need to import ``sys`` from the standard library. Add
+an ``import`` statement to the top of the file:
+
+.. code-block:: python
+
+    import sys
+
 
 Job
 ...
@@ -249,15 +229,18 @@ moment, we'll only be dealing with single program jobs. (In
 jobs to implement the MapReduce search function. But don't worry about that
 for now.)
 
-Let's create a class which will help us generate these jobs. Add the following
-code to ``snakebin.py``. For simplicity, some Swift object/container names are
+.. tip:: For complete details on structure and options for a job description,
+    check out the `full documentation
+    <https://github.com/zerovm/zerocloud/blob/swift-2.0/doc/Servlets.md>`_.
+
+Let's create a class which will help us generate these jobs. Add the class
+below to ``snakebin.py``. For simplicity, some Swift object/container names are
 hard-coded.
 
-.. literalinclude:: snakebin_part1.py
+.. literalinclude:: part1/snakebin.py
    :pyobject: Job
 
-This class makes use of the ``json`` module, so lets add an import statement
-to the top of the file:
+This class makes use of the ``json`` module, so lets import that as well:
 
 .. code-block:: python
 
@@ -271,32 +254,38 @@ Now we're getting into the core functionality of our application. It's time to
 add code to handle the ``POST`` and ``GET`` requests in the manner that we've
 defined in our :ref:`API definition <snakebin_ul_dl_api>` above.
 
-We'll need to add 4 new blocks of code:
+To make things easy for us, we can write this functionality as a `WSGI
+application <https://www.python.org/dev/peps/pep-0333/>`_ and use light-weight
+API framework like `Falcon <https://github.com/racker/falcon>`_ to implement
+the various endpoint handlers.
 
-- a function to handle ``POST`` requests
-- a function to handle ``GET`` requests
-- a utility function to check for file duplicates
-- a "main" block to start the program and call the right handler function
+We'll need to add a handful of new things to ``snakebin.py``:
 
-.. literalinclude:: snakebin_part1.py
-   :lines: 69-
+- a utility function to query container databases to check if an object with a
+  given name already exists
+- a utility function to generate a random "short name", using script upload
+  contents as the random seed
+- a couple of "handler" classes and some helper functions for dealing with the
+  various types of requests
+- a ``main`` block which sets up the WSGI application and registers the
+  endpoint handlers
+
+Here's what that looks like:
+
+.. literalinclude:: part1/snakebin.py
+   :lines: 74-
 
 This codes makes use of more standard library modules, so we need to add import
-statements for those:
+statements for those, as well as `falcon <https://github.com/racker/falcon>`_,
+a third party library.
 
-.. code-block:: python
-
-    import base64
-    import hashlib
-    import os
-    import random
-    import sqlite3
-    import string
-    import urlparse
+.. literalinclude:: part1/snakebin.py
+    :lines: 1-12
+    :emphasize-lines: 1-2,4-7,9-12
 
 Your ``snakebin.py`` file should now look something like this:
 
-.. literalinclude:: snakebin_part1.py
+.. literalinclude:: part1/snakebin.py
 
 
 ``get_file.py`` and ``save_file.py``
@@ -307,21 +296,21 @@ handle saving and retrieval of uploaded documents. Let's create those now.
 
 ``get_file.py``:
 
-.. literalinclude:: get_file_part1.py
+.. literalinclude:: part1/get_file.py
 
 ``save_file.py``:
 
-.. literalinclude:: save_file_part1.py
+.. literalinclude:: part1/save_file.py
 
 
 User Interface
 ..............
 
-To complete the first evolution of the Snakebin application, let's create a
+To complete the first iteration of the Snakebin application, let's create a
 user interface. Create a file called ``index.html`` and add the following code
 to it:
 
-.. literalinclude:: index_part1.html
+.. literalinclude:: part1/index.html
    :language: html
 
 Bundle and deploy
@@ -440,62 +429,58 @@ The following changes will implement these two endpoints.
 The Code
 ++++++++
 
-First, let's update the ``post()`` handler function:
+We need to add a couple of things to support script execution. First, we need
+to add a utility function to just execute code, and second, we need to update
+the endpoint handlers to support execution.
 
-.. literalinclude:: snakebin_part2.py
-   :pyobject: post
-   :emphasize-lines: 7-11,13-45
+First, we need to tweak ``_handle_script`` to support execution:
 
-Then update the ``get()`` handler function to allow ``/execute`` to specified
-on the end of a document URL (to execute the document instead of retrieving it:
+.. literalinclude:: part2/snakebin.py
+    :pyobject: _handle_script
+    :emphasize-lines: 1,9-10
 
-.. literalinclude:: snakebin_part2.py
-   :pyobject: get
-   :emphasize-lines: 4-26
+Next, add an ``execute_code`` utility function, which actually do the execution:
 
-The important change here is the parsing of the ``execute`` from the request
-URL and the setting of the ``SNAKEBIN_EXECUTE`` environment variable, which
-will be read by ``get_file.py``.
+.. literalinclude:: part2/snakebin.py
+    :pyobject: execute_code
 
-``get()`` needs the ``re`` (regular expressions) module from the standard
-library. Add an import statement for that to the top of ``snakebin.py``:
+``execute_code`` requires the ``imp`` and ``StringIO`` standard library modules,
+so we need to import those:
 
-.. code-block:: python
+.. literalinclude:: part2/snakebin.py
+    :lines: 1-14
+    :emphasize-lines: 3,9
 
-    import re
+Next, update the ``ScriptHandler`` class (to support direct POSTing of scripts
+for execution):
 
-Next, add a new function to ``snakebin.py`` called ``execute_code``. This
-will be used for executing the arbitrary code that users submit through
-Snakebin.
+.. literalinclude:: part2/snakebin.py
+    :pyobject: ScriptHandler
+    :emphasize-lines: 7-
 
-.. literalinclude:: snakebin_part2.py
-   :pyobject: execute_code
+and add a new ``ScriptExecuteHandler`` class:
 
-This new function requires the ``StringIO`` and ``imp`` modules from the
-standard library, so add some import statements for both of those to the top of
-``snakebin.py``:
+.. literalinclude:: part2/snakebin.py
+    :pyobject: ScriptExecuteHandler
 
-.. code-block:: python
+Finally, we need to register the new handler (and add a comment to explain some
+new behavior for ``ScriptHandler``):
 
-    import imp
-    import StringIO
+.. literalinclude:: part2/snakebin.py
+    :lines: 224-
+    :emphasize-lines: 4,6-7
 
-``snakebin.py`` should now look like this:
-
-.. literalinclude:: snakebin_part2.py
-   :language: python
-
-Next, we need to make some modifications to ``get_file.py`` to allow execution
+Now we need to make some modifications to ``get_file.py`` to allow execution
 of a script. We need to read the ``SNAKEBIN_EXECUTE`` environment variable
 and execute a script if it is present. Update ``get_file.py`` to this:
 
-.. literalinclude:: get_file_part2.py
-   :emphasize-lines: 12,15-25,29-32
+.. literalinclude:: part2/get_file.py
+   :emphasize-lines: 12,15-25,30-33
 
 We now need to update the UI with a "Run" button to hook in the execution
 functionality. Update your ``index.html`` to look like this:
 
-.. literalinclude:: index_part2.html
+.. literalinclude:: part2/index.html
    :language: html
    :emphasize-lines: 42-68,77,80-85
 
@@ -554,9 +539,10 @@ in the browser using the same the URL in the POST example above:
 Part 3: Search Scripts
 ----------------------
 
-The final piece of Snakebing is a simple search search, which will retrieve
-document whose contents contain a given search term. All documents in
-``snakebin-store`` will be search in a parallelized fashion.
+The final piece of Snakebin is a simple search search mechanism, which will find
+document which contain a given search term. All documents in ``snakebin-store``
+will be searched in a parallelized fashion using the MapReduce semantics of
+ZeroCloud.
 
 API updates
 +++++++++++
@@ -575,29 +561,37 @@ For the MapReduce job, we need to add two new Python modules.
 
 ``search_mapper.py``
 
-.. literalinclude:: search_mapper.py
+.. literalinclude:: part3/search_mapper.py
 
 ``search_reducer.py``
 
-.. literalinclude:: search_reducer.py
+.. literalinclude:: part3/search_reducer.py
 
-These two files will perform the search operation. Now we need to modify the
-``get`` function in ``snakebin.py`` to support the new endpoint:
+These two files will handle the bulk of the search operation.
 
-.. literalinclude:: snakebin_part3.py
-   :pyobject: get
-   :emphasize-lines: 3-49
+To kick off the search, we need to make some more changes to
+``snakebin.py``. First, add a ``_handle_search`` utility function:
 
-This updated version of ``get`` requires ``urllib`` for unquoting search
-strings. We'll need to import it:
+.. literalinclude:: part3/snakebin.py
+    :pyobject: _handle_search
 
-.. code-block:: python
+``_handle_search`` needs the ``urllib`` module from the standard library, so we
+must import it:
 
-    import urllib
+.. literalinclude:: part3/snakebin.py
+    :lines: 1-15
+    :emphasize-lines: 11
+
+Finally, we need to make one small tweak to ``ScriptHandler`` to hook in the
+search function:
+
+.. literalinclude:: part3/snakebin.py
+    :pyobject: ScriptHandler
+    :emphasize-lines: 4-7
 
 Now for the final changes to the user interface:
 
-.. literalinclude:: index_part3.html
+.. literalinclude:: part3/index.html
    :language: html
    :emphasize-lines: 69-92,97-102
 
